@@ -163,7 +163,7 @@ public class StudentService {
 
         Grade studentGrades;
         if (student.getGrades() == null) {
-            BigDecimal zero = new BigDecimal("0.00");
+            Double zero = 0.00;
             studentGrades = new Grade(zero, zero, zero, zero, zero, zero);
         } else {
             studentGrades = student.getGrades();
