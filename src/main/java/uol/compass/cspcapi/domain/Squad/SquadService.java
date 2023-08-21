@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.squad.dto.CreateSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.ResponseSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadDTO;
+import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadsStudentsDTO;
 import uol.compass.cspcapi.domain.classroom.Classroom;
 import uol.compass.cspcapi.domain.student.Student;
 import uol.compass.cspcapi.domain.student.StudentService;
@@ -31,7 +32,7 @@ public class SquadService {
 
     @Transactional
     public ResponseSquadDTO save(CreateSquadDTO squad) {
-        Optional<Squad> alreadyExists = squadRepository.findByName(squad.getName());
+        Optional<Squad> alreadyExists = squadRepository.findByName(squad.name());
 
         if(alreadyExists.isPresent()){
             throw new ResponseStatusException(
@@ -40,7 +41,7 @@ public class SquadService {
             );
         }
 
-        Squad newSquad = new Squad(squad.getName());
+        Squad newSquad = new Squad(squad.name());
         Squad squadDb = squadRepository.save(newSquad);
 
         return mapToResponseSquad(squadDb);
@@ -66,7 +67,7 @@ public class SquadService {
         Squad squad = squadRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Squad not found"));
 
-        squad.setName(squadDTO.getName());
+        squad.setName(squadDTO.name());
 
         Squad updatedSquad = squadRepository.save(squad);
 
@@ -116,14 +117,14 @@ public class SquadService {
     */
 
     @Transactional
-    public ResponseSquadDTO addStudentsToSquad(Long squadId, UpdateSquadDTO squadDTO) {
+    public ResponseSquadDTO addStudentsToSquad(Long squadId, UpdateSquadsStudentsDTO squadDTO) {
         Squad squad = squadRepository.findById(squadId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Squad not found"));
 
         // Cria uma cópia mutável da lista de estudantes do esquadrão
         List<Student> students = new ArrayList<>(squad.getStudents());
 
-        List<Student> newStudents = studentService.getAllStudentsById(squadDTO.getStudentsIds());
+        List<Student> newStudents = studentService.getAllStudentsById(squadDTO.studentsIds());
         students.addAll(newStudents);
 
         studentService.attributeStudentsToSquad(squad, students);
@@ -152,17 +153,17 @@ public class SquadService {
 
 
     @Transactional
-    public ResponseSquadDTO removeStudentsFromSquad(Long squadId, UpdateSquadDTO squadDTO) {
+    public ResponseSquadDTO removeStudentsFromSquad(Long squadId, UpdateSquadsStudentsDTO squadDTO) {
         Squad squad = squadRepository.findById(squadId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Squad not found"));
 
         List<Student> students = squad.getStudents();
 
         students.removeIf(
-                student -> squadDTO.getStudentsIds().contains(student.getId())
+                student -> squadDTO.studentsIds().contains(student.getId())
         );
 
-        List<Student> toRemoveStudents = studentService.getAllStudentsById(squadDTO.getStudentsIds());
+        List<Student> toRemoveStudents = studentService.getAllStudentsById(squadDTO.studentsIds());
         studentService.attributeStudentsToSquad(null, toRemoveStudents);
 
         squad.setStudents(students);

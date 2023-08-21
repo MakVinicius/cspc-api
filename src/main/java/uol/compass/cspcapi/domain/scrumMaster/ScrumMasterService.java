@@ -25,8 +25,6 @@ public class ScrumMasterService {
 
     private final ScrumMasterRepository scrumMasterRepository;
 
-    // Aqui eu não posso acessar diretamente o user repository
-    // Essa abordagem serve para manter as classes protegidas
     private final UserService userService;
     private final PasswordEncoder passwordEncrypt;
     private final RoleService roleService;
@@ -41,7 +39,7 @@ public class ScrumMasterService {
 
     @Transactional
     public ResponseScrumMasterDTO save(CreateScrumMasterDTO scrumMaster) {
-        Optional<User> alreadyExists = userService.findByEmail(scrumMaster.getUser().getEmail());
+        Optional<User> alreadyExists = userService.findByEmail(scrumMaster.user().email());
 
         if(alreadyExists.isPresent()){
             throw new ResponseStatusException(
@@ -51,10 +49,10 @@ public class ScrumMasterService {
         }
 
         User user = new User(
-                scrumMaster.getUser().getFirstName(),
-                scrumMaster.getUser().getLastName(),
-                scrumMaster.getUser().getEmail(),
-                passwordEncrypt.encoder().encode(scrumMaster.getUser().getPassword())
+                scrumMaster.user().firstName(),
+                scrumMaster.user().lastName(),
+                scrumMaster.user().email(),
+                passwordEncrypt.encoder().encode(scrumMaster.user().password())
         );
 
         user.getRoles().add(roleService.findRoleByName("ROLE_SCRUM_MASTER"));
@@ -94,9 +92,10 @@ public class ScrumMasterService {
 
         User user = scrumMaster.getUser();
 
-        user.setFirstName(scrumMasterDTO.getUser().getFirstName());
-        user.setLastName(scrumMasterDTO.getUser().getLastName());
-        user.setEmail(scrumMasterDTO.getUser().getEmail());
+        user.setFirstName(scrumMasterDTO.user().firstName());
+        user.setLastName(scrumMasterDTO.user().lastName());
+        user.setEmail(scrumMasterDTO.user().email());
+        user.setPassword(passwordEncrypt.encoder().encode(scrumMasterDTO.user().password()));
 
         scrumMaster.setUser(user);
 

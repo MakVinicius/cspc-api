@@ -1,5 +1,6 @@
 package uol.compass.cspcapi.application.api.squad;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uol.compass.cspcapi.application.api.squad.dto.CreateSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.ResponseSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadDTO;
+import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadsStudentsDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.Squad.SquadService;
 
@@ -24,7 +26,7 @@ public class SquadController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseSquadDTO> createSquad(@RequestBody CreateSquadDTO squad) {
+    public ResponseEntity<ResponseSquadDTO> createSquad(@Valid @RequestBody CreateSquadDTO squad) {
         return new ResponseEntity<>(
                 squadService.save(squad),
                 HttpStatus.CREATED
@@ -45,7 +47,10 @@ public class SquadController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseSquadDTO> updateSquad(@PathVariable Long id, @RequestBody UpdateSquadDTO squadDTO) {
+    public ResponseEntity<ResponseSquadDTO> updateSquad(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateSquadDTO squadDTO
+    ) {
         return new ResponseEntity<>(squadService.updateSquad(id, squadDTO), HttpStatus.OK);
     }
 
@@ -56,7 +61,10 @@ public class SquadController {
     }
 
     @PatchMapping("/{id}/add-students")
-    public ResponseEntity<ResponseSquadDTO> addStudentsToSquad(@PathVariable Long id, @RequestBody UpdateSquadDTO studentsIds) {
+    public ResponseEntity<ResponseSquadDTO> addStudentsToSquad(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateSquadsStudentsDTO studentsIds
+    ) {
         return new ResponseEntity<>(
                 squadService.addStudentsToSquad(id, studentsIds),
                 HttpStatus.OK
@@ -64,7 +72,10 @@ public class SquadController {
     }
 
     @PatchMapping("/{id}/remove-students")
-    public ResponseEntity<ResponseSquadDTO> removeStudentsFromSquad(@PathVariable Long id, @RequestBody UpdateSquadDTO studentsIds) {
+    public ResponseEntity<ResponseSquadDTO> removeStudentsFromSquad(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateSquadsStudentsDTO studentsIds
+    ) {
         return new ResponseEntity<>(
                 squadService.removeStudentsFromSquad(id, studentsIds),
                 HttpStatus.OK

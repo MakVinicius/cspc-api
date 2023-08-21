@@ -1,46 +1,17 @@
 package uol.compass.cspcapi.application.api.classroom.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import uol.compass.cspcapi.domain.Squad.Squad;
-import uol.compass.cspcapi.domain.coordinator.Coordinator;
-import uol.compass.cspcapi.domain.scrumMaster.ScrumMaster;
-import uol.compass.cspcapi.domain.student.Student;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Range;
 
-import java.util.List;
+public record CreateClassroomDTO (
+        @NotBlank(message = "title must not be empty")
+        @Size(min = 3, message = "title must be at least 3 characters long")
+        String title,
 
-public class CreateClassroomDTO {
-    @NotBlank(message = "Title must not be empty")
-    @Min(value = 3, message = "Title must be greater than 3 letters")
-    private String title;
-
-    private Long coordinatorId;
-
-    public CreateClassroomDTO(String title, Long coordinatorId) {
-        this.title = title;
-        this.coordinatorId = coordinatorId;
-    }
-
-    public CreateClassroomDTO(String title) {
-    }
-
-    public CreateClassroomDTO() {
-
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getCoordinatorId() {
-        return coordinatorId;
-    }
-
-    public void setCoordinatorId(Long coordinatorId) {
-        this.coordinatorId = coordinatorId;
-    }
+        @NotNull(message = "coordinatorId must not be null")
+        @Range(min = 0, message = "coordinatorId must be equal to or greater than 0")
+        Long coordinatorId
+) {
 }

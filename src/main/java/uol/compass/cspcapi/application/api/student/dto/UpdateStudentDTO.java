@@ -1,13 +1,20 @@
 package uol.compass.cspcapi.application.api.student.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import uol.compass.cspcapi.application.api.grade.dto.UpdateGradeDTO;
 import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.classroom.Classroom;
 
-public class UpdateStudentDTO {
-    private UpdateGradeDTO grades;
+public record UpdateStudentDTO (
+        @Valid
+        @NotNull(message = "user must not be null")
+        UpdateUserDTO user
+) {
+
+    /*private UpdateGradeDTO grades;
 
     @NotBlank(message = "user must not be empty")
     private UpdateUserDTO user;
@@ -52,4 +59,6 @@ public class UpdateStudentDTO {
     public void setUser(UpdateUserDTO user) {
         this.user = user;
     }
+
+     */
 }

@@ -1,5 +1,6 @@
 package uol.compass.cspcapi.application.api.instructor;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseInstructorDTO> createInstructor(@RequestBody CreateInstructorDTO instructor) {
+    public ResponseEntity<ResponseInstructorDTO> createInstructor(@Valid @RequestBody CreateInstructorDTO instructor) {
         return new ResponseEntity<>(
                 instructorService.save(instructor),
                 HttpStatus.CREATED
@@ -48,7 +49,7 @@ public class InstructorController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseInstructorDTO> updateInstructor(
             @PathVariable Long id,
-            @RequestBody UpdateInstructorDTO instructorDTO
+            @Valid @RequestBody UpdateInstructorDTO instructorDTO
     ) {
         return new ResponseEntity<>(
                 instructorService.update(id, instructorDTO),

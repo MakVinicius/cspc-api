@@ -59,10 +59,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> saveAdminUser(@Valid @RequestBody CreateUserDTO createUserDTO){
         User user = new User(
-                createUserDTO.getFirstName(),
-                createUserDTO.getLastName(),
-                createUserDTO.getEmail(),
-                createUserDTO.getPassword()
+                createUserDTO.firstName(),
+                createUserDTO.lastName(),
+                createUserDTO.email(),
+                createUserDTO.password()
         );
 
         Role role = roleService.findRoleByName("ROLE_ADMIN");

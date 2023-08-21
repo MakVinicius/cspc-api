@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import uol.compass.cspcapi.domain.student.Student;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 
@@ -13,18 +15,18 @@ public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double communication;
-    private Double collaboration;
-    private Double autonomy;
-    private Double quiz;
-    private Double individualChallenge;
-    private Double squadChallenge;
-    private Double finalGrade;
+    private BigDecimal communication;
+    private BigDecimal collaboration;
+    private BigDecimal autonomy;
+    private BigDecimal quiz;
+    private BigDecimal individualChallenge;
+    private BigDecimal squadChallenge;
+    private BigDecimal finalGrade;
 
     public Grade() {
     }
 
-    public Grade(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
+    public Grade(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
         this.communication = communication;
         this.collaboration = collaboration;
         this.autonomy = autonomy;
@@ -42,64 +44,73 @@ public class Grade {
         this.id = id;
     }
 
-    public Double getCommunication() {
+    public BigDecimal getCommunication() {
         return communication;
     }
 
-    public void setCommunication(Double communication) {
+    public void setCommunication(BigDecimal communication) {
         this.communication = communication;
     }
 
-    public Double getCollaboration() {
+    public BigDecimal getCollaboration() {
         return collaboration;
     }
 
-    public void setCollaboration(Double collaboration) {
+    public void setCollaboration(BigDecimal collaboration) {
         this.collaboration = collaboration;
     }
 
-    public Double getAutonomy() {
+    public BigDecimal getAutonomy() {
         return autonomy;
     }
 
-    public void setAutonomy(Double autonomy) {
+    public void setAutonomy(BigDecimal autonomy) {
         this.autonomy = autonomy;
     }
 
-    public Double getQuiz() {
+    public BigDecimal getQuiz() {
         return quiz;
     }
 
-    public void setQuiz(Double quiz) {
+    public void setQuiz(BigDecimal quiz) {
         this.quiz = quiz;
     }
 
-    public Double getIndividualChallenge() {
+    public BigDecimal getIndividualChallenge() {
         return individualChallenge;
     }
 
-    public void setIndividualChallenge(Double individualChallenge) {
+    public void setIndividualChallenge(BigDecimal individualChallenge) {
         this.individualChallenge = individualChallenge;
     }
 
-    public Double getSquadChallenge() {
+    public BigDecimal getSquadChallenge() {
         return squadChallenge;
     }
 
-    public void setSquadChallenge(Double squadChallenge) {
+    public void setSquadChallenge(BigDecimal squadChallenge) {
         this.squadChallenge = squadChallenge;
     }
 
-    public Double getFinalGrade() {
+    public BigDecimal getFinalGrade() {
         return finalGrade;
     }
 
-    public void setFinalGrade(Double finalGrade) {
+    public void setFinalGrade(BigDecimal finalGrade) {
         this.finalGrade = finalGrade;
     }
 
-    public Double calculateFinalGrade(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
-        Double result = ((communication * 1) + (collaboration * 1) + (autonomy * 1) + (quiz * 1) + (individualChallenge * 1) + (squadChallenge * 1)) / 6;
+    public BigDecimal calculateFinalGrade(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
+        BigDecimal multiplier = new BigDecimal("1");
+
+        BigDecimal result = communication.multiply(multiplier)
+                .add(collaboration.multiply(multiplier))
+                .add(autonomy.multiply(multiplier))
+                .add(quiz.multiply(multiplier))
+                .add(individualChallenge.multiply(multiplier))
+                .add(squadChallenge.multiply(multiplier))
+                .divide(new BigDecimal("6"), RoundingMode.HALF_UP);
+
         return result;
     }
 }

@@ -22,9 +22,9 @@ import java.util.Optional;
 @Service
 public class InstructorService {
     private InstructorRepository instructorRepository;
+
     private final UserService userService;
     private final PasswordEncoder passwordEncrypt;
-
     private final RoleService roleService;
 
     @Autowired
@@ -37,7 +37,7 @@ public class InstructorService {
 
     @Transactional
     public ResponseInstructorDTO save(CreateInstructorDTO instructor) {
-        Optional<User> alreadyExists = userService.findByEmail(instructor.getUser().getEmail());
+        Optional<User> alreadyExists = userService.findByEmail(instructor.user().email());
 
         if(alreadyExists.isPresent()){
             throw new ResponseStatusException(
@@ -47,10 +47,10 @@ public class InstructorService {
         }
 
         User user = new User(
-                instructor.getUser().getFirstName(),
-                instructor.getUser().getLastName(),
-                instructor.getUser().getEmail(),
-                passwordEncrypt.encoder().encode(instructor.getUser().getPassword())
+                instructor.user().firstName(),
+                instructor.user().lastName(),
+                instructor.user().email(),
+                passwordEncrypt.encoder().encode(instructor.user().password())
         );
 
         user.getRoles().add(roleService.findRoleByName("ROLE_INSTRUCTOR"));
@@ -87,6 +87,14 @@ public class InstructorService {
                 )
         );
 
+        Long classroomId;
+
+        if (instructor.getClassroom() == null) {
+            classroomId = null;
+        } else {
+            classroomId = instructor.getClassroom().getId();
+        }
+
         ResponseInstructorDTO responseInstructor = new ResponseInstructorDTO(
                 instructor.getId(),
                 new ResponseUserDTO(
@@ -94,7 +102,8 @@ public class InstructorService {
                         instructor.getUser().getFirstName(),
                         instructor.getUser().getLastName(),
                         instructor.getUser().getEmail()
-                )
+                ),
+                classroomId
         );
         return responseInstructor;
     }
@@ -115,13 +124,22 @@ public class InstructorService {
 
         User user = instructor.getUser();
 
-        user.setFirstName(instructorDTO.getUser().getFirstName());
-        user.setLastName(instructorDTO.getUser().getLastName());
-        user.setEmail(instructorDTO.getUser().getEmail());
+        user.setFirstName(instructorDTO.user().firstName());
+        user.setLastName(instructorDTO.user().lastName());
+        user.setEmail(instructorDTO.user().email());
+        user.setPassword(passwordEncrypt.encoder().encode(instructorDTO.user().password()));
 
         instructor.setUser(user);
 
         Instructor updatedInstructor = instructorRepository.save(instructor);
+
+        Long classroomId;
+
+        if (instructor.getClassroom() == null) {
+            classroomId = null;
+        } else {
+            classroomId = instructor.getClassroom().getId();
+        }
 
         ResponseInstructorDTO responseInstructor = new ResponseInstructorDTO(
                 updatedInstructor.getId(),
@@ -130,7 +148,8 @@ public class InstructorService {
                         updatedInstructor.getUser().getFirstName(),
                         updatedInstructor.getUser().getLastName(),
                         updatedInstructor.getUser().getEmail()
-                )
+                ),
+                classroomId
         );
         return responseInstructor;
     }

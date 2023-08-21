@@ -1,5 +1,6 @@
 package uol.compass.cspcapi.application.api.coordinator;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CoordinatorController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseCoordinatorDTO> createCoordinator(@RequestBody CreateCoordinatorDTO coordinator) {
+    public ResponseEntity<ResponseCoordinatorDTO> createCoordinator(@Valid @RequestBody CreateCoordinatorDTO coordinator) {
         return new ResponseEntity<>(
                 coordinatorService.save(coordinator),
                 HttpStatus.CREATED
@@ -49,7 +50,7 @@ public class CoordinatorController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseCoordinatorDTO> updateCoordinator(
             @PathVariable Long id,
-            @RequestBody UpdateCoordinatorDTO coordinatorDTO
+            @Valid @RequestBody UpdateCoordinatorDTO coordinatorDTO
     ) {
         return new ResponseEntity<>(
                 coordinatorService.update(id, coordinatorDTO),

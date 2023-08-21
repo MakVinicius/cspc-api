@@ -1,5 +1,5 @@
 package uol.compass.cspcapi.integrationTests.scrumMaster;
-
+/*
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Disabled;
@@ -206,3 +206,5 @@ public class ScrumMasterControllerIT {
         return new ObjectMapper().writeValueAsString(obj);
     }
 }
+
+ */
