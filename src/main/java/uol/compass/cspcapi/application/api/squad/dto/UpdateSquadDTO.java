@@ -10,7 +10,7 @@ import java.util.List;
 
 public record UpdateSquadDTO (
         @NotBlank(message = "name must not be empty")
-        @Size(min = 3, message = "name must be greater than 3 letters")
+        @Size(min = 3, message = "name must be at least 3 characters long")
         String name
 ) {
 }

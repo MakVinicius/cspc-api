@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.grade.dto.UpdateGradeDTO;
-import uol.compass.cspcapi.application.api.scrumMaster.dto.UpdateStudentsGradeDTO;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
@@ -176,14 +176,24 @@ public class StudentService {
         studentGrades.setQuiz(newGrades.quiz());
         studentGrades.setIndividualChallenge(newGrades.individualChallenge());
         studentGrades.setSquadChallenge(newGrades.squadChallenge());
-        studentGrades.calculateFinalGrade(
-                studentGrades.getCommunication(),
-                studentGrades.getCollaboration(),
-                studentGrades.getAutonomy(),
-                studentGrades.getQuiz(),
-                studentGrades.getIndividualChallenge(),
-                studentGrades.getSquadChallenge()
+        studentGrades.setFinalGrade(
+                studentGrades.calculateFinalGrade(
+                        studentGrades.getCommunication(),
+                        studentGrades.getCollaboration(),
+                        studentGrades.getAutonomy(),
+                        studentGrades.getQuiz(),
+                        studentGrades.getIndividualChallenge(),
+                        studentGrades.getSquadChallenge()
+                )
         );
+//        studentGrades.calculateFinalGrade(
+//                studentGrades.getCommunication(),
+//                studentGrades.getCollaboration(),
+//                studentGrades.getAutonomy(),
+//                studentGrades.getQuiz(),
+//                studentGrades.getIndividualChallenge(),
+//                studentGrades.getSquadChallenge()
+//        );
 
         student.setGrades(studentGrades);
         Student savedStudent = studentRepository.save(student);

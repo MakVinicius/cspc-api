@@ -9,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.coordinator.dto.CreateCoordinatorDTO;
 import uol.compass.cspcapi.application.api.coordinator.dto.ResponseCoordinatorDTO;
 import uol.compass.cspcapi.application.api.coordinator.dto.UpdateCoordinatorDTO;
+import uol.compass.cspcapi.domain.classroom.Classroom;
+import uol.compass.cspcapi.domain.classroom.ClassroomRepository;
+import uol.compass.cspcapi.domain.classroom.ClassroomService;
 import uol.compass.cspcapi.domain.role.RoleService;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.ResponseUserDTO;
@@ -23,15 +26,17 @@ import java.util.Optional;
 @Service
 public class CoordinatorService {
     private CoordinatorRepository coordinatorRepository;
-    private final UserService userService;
-    private final PasswordEncoder passwordEncrypt;
 
+    private final UserService userService;
+    private final ClassroomRepository classroomRepository;
+    private final PasswordEncoder passwordEncrypt;
     private final RoleService roleService;
 
     @Autowired
-    public CoordinatorService(CoordinatorRepository coordinatorRepository, UserService userService, PasswordEncoder passwordEncrypt, RoleService roleService) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepository, UserService userService, ClassroomRepository classroomRepository, PasswordEncoder passwordEncrypt, RoleService roleService) {
         this.coordinatorRepository = coordinatorRepository;
         this.userService = userService;
+        this.classroomRepository = classroomRepository;
         this.passwordEncrypt = passwordEncrypt;
         this.roleService = roleService;
     }
@@ -143,6 +148,9 @@ public class CoordinatorService {
         );
 
         coordinator.getUser().getRoles().removeAll(coordinator.getUser().getRoles());
+
+        Classroom classroom = classroomRepository.findByCoordinatorId(id);
+        classroom.setCoordinator(null);
 
         coordinatorRepository.delete(coordinator);
     }

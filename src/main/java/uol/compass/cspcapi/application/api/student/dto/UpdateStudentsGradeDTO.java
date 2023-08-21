@@ -1,4 +1,4 @@
-package uol.compass.cspcapi.application.api.scrumMaster.dto;
+package uol.compass.cspcapi.application.api.student.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

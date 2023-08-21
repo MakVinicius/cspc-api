@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
     Optional<Classroom> findByTitle(String classroomTitle);
 
+    Classroom findByCoordinatorId(Long id);
 }

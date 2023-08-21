@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uol.compass.cspcapi.application.api.scrumMaster.dto.UpdateStudentsGradeDTO;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;

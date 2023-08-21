@@ -14,7 +14,7 @@ public record CreateUserDTO (
         String lastName,
 
         @NotBlank(message = "email must not be empty")
-        @Email(message = "this field must be an email pattern")
+        @Email(message = "field must be an email pattern")
         String email,
 
         @NotBlank(message = "password must not be empty")

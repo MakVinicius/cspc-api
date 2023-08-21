@@ -14,33 +14,43 @@ public record UpdateGradeDTO (
         @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
         BigDecimal communication,
 
-        @NotNull(message = "communication must not be null")
-        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
-        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
+        @NotNull(message = "collaboration must not be null")
+        @DecimalMax(value = "10.00", message = "collaboration can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "collaboration can be 0.00 at min")
         BigDecimal collaboration,
 
-        @NotNull(message = "communication must not be null")
-        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
-        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
+        @NotNull(message = "autonomy must not be null")
+        @DecimalMax(value = "10.00", message = "autonomy can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "autonomy can be 0.00 at min")
         BigDecimal autonomy,
 
-        @NotNull(message = "communication must not be null")
-        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
-        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
+        @NotNull(message = "quiz must not be null")
+        @DecimalMax(value = "10.00", message = "quiz can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "quiz can be 0.00 at min")
         BigDecimal quiz,
 
-        @NotNull(message = "communication must not be null")
-        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
-        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
+        @NotNull(message = "individualChallenge must not be null")
+        @DecimalMax(value = "10.00", message = "individualChallenge can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "individualChallenge can be 0.00 at min")
         BigDecimal individualChallenge,
 
-        @NotNull(message = "communication must not be null")
-        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
-        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
-        BigDecimal squadChallenge,
-
-        BigDecimal finalGrade
+        @NotNull(message = "squadChallenge must not be null")
+        @DecimalMax(value = "10.00", message = "squadChallenge can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "squadChallenge can be 0.00 at min")
+        BigDecimal squadChallenge
 ) {
+        public BigDecimal calculateFinalGrade() {
+                BigDecimal sum = communication
+                        .add(collaboration)
+                        .add(autonomy)
+                        .add(quiz)
+                        .add(individualChallenge)
+                        .add(squadChallenge);
+
+                return sum.divide(BigDecimal.valueOf(6), 2, BigDecimal.ROUND_HALF_UP);
+        }
+
+        /*
     public UpdateGradeDTO(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
         this(
                 communication,
@@ -60,7 +70,7 @@ public record UpdateGradeDTO (
         );
     }
 
-/*
+
     public BigDecimal calculateFinalGrade(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
         BigDecimal multiplier = new BigDecimal("1");
 
