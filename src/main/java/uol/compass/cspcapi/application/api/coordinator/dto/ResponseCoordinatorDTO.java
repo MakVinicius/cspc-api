@@ -8,30 +8,4 @@ public record ResponseCoordinatorDTO (
         Long id,
         ResponseUserDTO user
 ) {
-//    private Long id;
-//    private ResponseUserDTO user;
-//
-//    public ResponseCoordinatorDTO() {
-//    }
-//
-//    public ResponseCoordinatorDTO(Long id, ResponseUserDTO user) {
-//        this.id = id;
-//        this.user = user;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public ResponseUserDTO getUser() {
-//        return user;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public void setUser(ResponseUserDTO user) {
-//        this.user = user;
-//    }
 }

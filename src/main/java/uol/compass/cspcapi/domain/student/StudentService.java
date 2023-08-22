@@ -165,7 +165,7 @@ public class StudentService {
 
         Grade studentGrades;
         if (student.getGrades() == null) {
-            Double zero = 0.00;
+            BigDecimal zero = new BigDecimal("0.00");
             studentGrades = new Grade(zero, zero, zero, zero, zero, zero);
         } else {
             studentGrades = student.getGrades();
@@ -188,14 +188,6 @@ public class StudentService {
                         studentGrades.getSquadChallenge()
                 )
         );
-//        studentGrades.calculateFinalGrade(
-//                studentGrades.getCommunication(),
-//                studentGrades.getCollaboration(),
-//                studentGrades.getAutonomy(),
-//                studentGrades.getQuiz(),
-//                studentGrades.getIndividualChallenge(),
-//                studentGrades.getSquadChallenge()
-//        );
 
         student.setGrades(studentGrades);
         Student savedStudent = studentRepository.save(student);

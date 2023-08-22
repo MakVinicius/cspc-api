@@ -63,7 +63,7 @@ public class InstructorControllerIT {
         String password = "password";
 
         CreateInstructorDTO instructorDTO = new CreateInstructorDTO(
-                new User(firstName, lastName, email, password)
+                new CreateUserDTO(firstName, lastName, email, password, null)
         );
 
         String authToken = login();
@@ -153,7 +153,7 @@ public class InstructorControllerIT {
     @Test
     public void testUpdateInstructor_Success() throws Exception {
         Long instructorId = 2L;
-        User updatedUser = new User("Update", "User", "update21demail1@mail.com", "udpatedpassword");
+        UpdateUserDTO updatedUser = new UpdateUserDTO("Update", "User", "update21demail1@mail.com", "udpatedpassword", null);
         UpdateInstructorDTO instructorDTO = new UpdateInstructorDTO(updatedUser);
 
         String authToken = login();
@@ -163,9 +163,9 @@ public class InstructorControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(instructorDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.user.firstName").value(updatedUser.getFirstName()))
-                .andExpect(jsonPath("$.user.lastName").value(updatedUser.getLastName()))
-                .andExpect(jsonPath("$.user.email").value(updatedUser.getEmail()))
+                .andExpect(jsonPath("$.user.firstName").value(updatedUser.firstName()))
+                .andExpect(jsonPath("$.user.lastName").value(updatedUser.lastName()))
+                .andExpect(jsonPath("$.user.email").value(updatedUser.email()))
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
@@ -175,9 +175,9 @@ public class InstructorControllerIT {
         String responseEmail = JsonPath.read(responseJson, "$.user.email");
 
 
-        assertEquals(updatedUser.getFirstName(), responseFirstName);
-        assertEquals(updatedUser.getLastName(), responseLastName);
-        assertEquals(updatedUser.getEmail(), responseEmail);
+        assertEquals(updatedUser.firstName(), responseFirstName);
+        assertEquals(updatedUser.lastName(), responseLastName);
+        assertEquals(updatedUser.email(), responseEmail);
     }
 
     @Disabled

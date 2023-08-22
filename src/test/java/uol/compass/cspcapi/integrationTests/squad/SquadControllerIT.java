@@ -16,6 +16,7 @@ import uol.compass.cspcapi.application.api.auth.dto.LoginDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomDTO;
 import uol.compass.cspcapi.application.api.squad.dto.CreateSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadDTO;
+import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadsStudentsDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.student.Student;
 
@@ -62,8 +63,6 @@ public class SquadControllerIT {
     @Disabled
     @Test
     public void testCreateSquads_Success() throws Exception {
-        CreateSquadDTO squad = new CreateSquadDTO();
-
         String squadName = "SpringForce";
         CreateSquadDTO squadDTO = new CreateSquadDTO(squadName);
 
@@ -178,7 +177,7 @@ public class SquadControllerIT {
 
         Long squadId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO(generalUsersIds);
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -218,7 +217,7 @@ public class SquadControllerIT {
 
         Long squadId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO(generalUsersIds);
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(generalUsersIds);
 
         String authToken = login();
 

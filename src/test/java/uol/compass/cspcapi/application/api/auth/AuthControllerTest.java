@@ -52,12 +52,15 @@ public class AuthControllerTest {
         String lastName = "Doe";
         String email = "john.doe@example.com";
         String password = "admin123";
+        String linkedInLink = "";
 
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setFirstName(firstName);
-        createUserDTO.setLastName(lastName);
-        createUserDTO.setEmail(email);
-        createUserDTO.setPassword(password);
+        CreateUserDTO createUserDTO = new CreateUserDTO(
+                firstName,
+                lastName,
+                email,
+                password,
+                linkedInLink
+        );
 
         User user = new User(firstName, lastName, email, password);
         Role adminRole = new Role("ROLE_ADMIN");
@@ -83,12 +86,15 @@ public class AuthControllerTest {
         String lastName = "Doe";
         String email = "john.doe@example.com";
         String password = "admin123";
+        String linkedInLink = "";
 
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setFirstName(firstName);
-        createUserDTO.setLastName(lastName);
-        createUserDTO.setEmail(email);
-        createUserDTO.setPassword(password);
+        CreateUserDTO createUserDTO = new CreateUserDTO(
+                firstName,
+                lastName,
+                email,
+                password,
+                linkedInLink
+        );
 
         when(roleService.findRoleByName("ROLE_ADMIN")).thenReturn(null);
 
@@ -102,7 +108,7 @@ public class AuthControllerTest {
     @Test
     public void testLoginSuccess() throws Exception {
         String email = "test@example.com";
-        String password = "test123";
+        String password = "12345678";
 
         LoginDTO loginDTO = new LoginDTO(email, password);
 
@@ -120,7 +126,7 @@ public class AuthControllerTest {
     @Test
     public void testLoginError() throws Exception {
         String email = "test@example.com";
-        String password = "test123";
+        String password = "12345678";
 
         LoginDTO loginDTO = new LoginDTO(email, password);
 

@@ -11,9 +11,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
+import uol.compass.cspcapi.application.api.classroom.dto.CreateClassroomDTO;
 import uol.compass.cspcapi.application.api.scrumMaster.dto.CreateScrumMasterDTO;
 import uol.compass.cspcapi.application.api.scrumMaster.dto.ResponseScrumMasterDTO;
 import uol.compass.cspcapi.application.api.scrumMaster.dto.UpdateScrumMasterDTO;
+import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
+import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 import uol.compass.cspcapi.domain.classroom.Classroom;
 import uol.compass.cspcapi.domain.role.Role;
 import uol.compass.cspcapi.domain.user.User;
@@ -25,13 +28,18 @@ import uol.compass.cspcapi.infrastructure.config.passwordEncrypt.PasswordEncoder
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static uol.compass.cspcapi.commons.CoordinatorsConstants.*;
+
 public class ScrumMasterServiceTest {
 
 	private static final User USER_1 = new User("first", "last", "test@mail.com", "12345678");
+	private static final UpdateUserDTO UPDATE_USER_1 = new UpdateUserDTO("first", "last", "test@mail.com", "12345678", "linkedInLink");
+	private static final CreateUserDTO CREATE_USER_1 = new CreateUserDTO("first", "last", "test@mail.com", "12345678", "linkedInLink");
 	private static final ScrumMaster SCRUM_MASTER_1 = new ScrumMaster(USER_1);
 	private static final Role ROLE_1 = new Role("ROLE_SCRUM_MASTER");
 
-	private static final Classroom CLASSROOM_1 = new Classroom("classroom");
+	private static final CreateClassroomDTO CREATE_CLASSROOM_1 = new CreateClassroomDTO("classroom", COORDINATOR_1.getId(), null);
+	private static final Classroom CLASSROOM_1 = new Classroom("classroom", COORDINATOR_1);
 
 	private static UserRepository userRepository;
 	private static RoleRepository roleRepository;
@@ -74,8 +82,8 @@ public class ScrumMasterServiceTest {
 		ResponseScrumMasterDTO response = scrumMasterService.save(createScrumMasterDTO());
 
 		assertNotNull(response);
-		assertEquals(USER_1.getFirstName(), response.getUser().getFirstName());
-		assertEquals(SCRUM_MASTER_1.getId(), response.getId());
+		assertEquals(USER_1.getFirstName(), response.user().firstName());
+		assertEquals(SCRUM_MASTER_1.getId(), response.id());
 	}
 
 	@Test
@@ -113,7 +121,7 @@ public class ScrumMasterServiceTest {
 
 		verify(scrumMasterRepository).findById(anyLong());
 		assertNotNull(response);
-		assertEquals(SCRUM_MASTER_1.getId(), response.getId());
+		assertEquals(SCRUM_MASTER_1.getId(), response.id());
 	}
 
 	@Test
@@ -132,7 +140,6 @@ public class ScrumMasterServiceTest {
 
 	@Test
 	void getAllSuccess() {
-		// duplicated only to compare size
 		List<ScrumMaster> list = List.of(SCRUM_MASTER_1, SCRUM_MASTER_1);
 		when(scrumMasterRepository.findAll()).thenReturn(list);
 
@@ -144,7 +151,6 @@ public class ScrumMasterServiceTest {
 
 	@Test
 	void getAllFail() {
-		// duplicated only to compare size
 		List<ScrumMaster> list = List.of(SCRUM_MASTER_1, SCRUM_MASTER_1);
 		when(scrumMasterRepository.findAll()).thenReturn(List.of(SCRUM_MASTER_1));
 
@@ -164,8 +170,8 @@ public class ScrumMasterServiceTest {
 		ResponseScrumMasterDTO response = scrumMasterService.update(1L, updateScrumMasterDTO());
 
 		assertNotNull(response);
-		assertEquals(USER_1.getFirstName(), response.getUser().getFirstName());
-		assertEquals(SCRUM_MASTER_1.getId(), response.getId());
+		assertEquals(USER_1.getFirstName(), response.user().firstName());
+		assertEquals(SCRUM_MASTER_1.getId(), response.id());
 	}
 
 	@Test
@@ -281,14 +287,13 @@ public class ScrumMasterServiceTest {
 
 	CreateScrumMasterDTO createScrumMasterDTO() {
 		return new CreateScrumMasterDTO(
-				USER_1
+				CREATE_USER_1
 		);
 	}
 
 	UpdateScrumMasterDTO updateScrumMasterDTO() {
 		return new UpdateScrumMasterDTO(
-				USER_1,
-				CLASSROOM_1
+				UPDATE_USER_1
 		);
 	}
 }

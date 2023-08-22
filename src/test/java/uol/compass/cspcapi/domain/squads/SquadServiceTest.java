@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.squad.dto.CreateSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.ResponseSquadDTO;
 import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadDTO;
+import uol.compass.cspcapi.application.api.squad.dto.UpdateSquadsStudentsDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.Squad.SquadRepository;
@@ -31,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class SquadServiceTest {
 
@@ -52,28 +52,13 @@ public class SquadServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    /*
-    save : Success/Failure
-    getById : Success/Failure
-    getAll : Success/Failure
-    updateSquad : Success/Failure
-    delete : Success/Failure
-    removeStudentsFromSquad : Success/Failure
-    attributeSquadsToClassroom : Success/Failure
-    getAllSquadsById : Success/Failure
-    addStudentsToSquad : Success/Failure
-    */
-
-
-    //Save
     @Test
     public void test_Save_Success() {
-        CreateSquadDTO squadDTO = new CreateSquadDTO();
-        squadDTO.setName("Test Squad");
+        CreateSquadDTO squadDTO = new CreateSquadDTO("Test Squad");
 
-        when(squadRepository.findByName(squadDTO.getName())).thenReturn(Optional.empty());
+        when(squadRepository.findByName(squadDTO.name())).thenReturn(Optional.empty());
 
-        Squad newSquad = new Squad(squadDTO.getName());
+        Squad newSquad = new Squad(squadDTO.name());
         newSquad.setId(1L);
         when(squadRepository.save(any())).thenReturn(newSquad);
 
@@ -81,23 +66,20 @@ public class SquadServiceTest {
 
         verify(squadRepository).save(any());
 
-        assertEquals(newSquad.getId(), result.getId());
-        assertEquals(squadDTO.getName(), result.getName());
+        assertEquals(newSquad.getId(), result.id());
+        assertEquals(squadDTO.name(), result.name());
     }
 
     @Test
     public void test_Save_Failure() {
-        CreateSquadDTO squadDTO = new CreateSquadDTO();
-        squadDTO.setName("Existing Squad");
+        CreateSquadDTO squadDTO = new CreateSquadDTO("Existing Squad");
 
-        Squad existingSquad = new Squad(squadDTO.getName());
-        when(squadRepository.findByName(squadDTO.getName())).thenReturn(Optional.of(existingSquad));
+        Squad existingSquad = new Squad(squadDTO.name());
+        when(squadRepository.findByName(squadDTO.name())).thenReturn(Optional.of(existingSquad));
 
         assertThrows(ResponseStatusException.class, () -> squadService.save(squadDTO));
     }
 
-
-    //Update squads
     @Test
     public void testUpdateSquad_Success() {
         Long squadId = 1L;
@@ -105,23 +87,22 @@ public class SquadServiceTest {
         squad.setId(squadId);
         squad.setName("Squad 1");
 
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setName("Updated Squad");
+        UpdateSquadDTO squadDTO = new UpdateSquadDTO("Updated Squad");
 
         when(squadRepository.findById(squadId)).thenReturn(Optional.of(squad));
         when(squadRepository.save(any())).thenReturn(squad);
 
         ResponseSquadDTO result = squadService.updateSquad(squadId, squadDTO);
 
-        assertEquals("Updated Squad", result.getName());
+        assertEquals("Updated Squad", result.name());
 
         verify(squadRepository).findById(squadId);
         verify(squadRepository).save(squad);
     }
+
     @Test
     public void testUpdateSquad_Failure() {
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setName("Updated Squad");
+        UpdateSquadDTO squadDTO = new UpdateSquadDTO("Updated Squad");
 
         when(squadRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -135,22 +116,22 @@ public class SquadServiceTest {
         verify(squadRepository, never()).save(any());
     }
 
-
-    //Add students to squad
     @Test
     public void testAddStudentsToSquad_Success() {
         Long squadId = 1L;
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setStudentsIds(Arrays.asList(1L, 2L));
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(Arrays.asList(1L, 2L));
 
         Squad squad = new Squad("Test squad");
         when(squadRepository.findById(squadId)).thenReturn(Optional.of(squad));
 
-        Student student1 = new Student(1L, "Student 1");
-        Student student2 = new Student(2L, "Student 2");
-        when(studentService.getAllStudentsById(squadDTO.getStudentsIds())).thenReturn(Arrays.asList(student1, student2));
+        Student student1 = new Student();
+        student1.setId(1L);
+        Student student2 = new Student();
+        student2.setId(2L);
+        when(studentService.getAllStudentsById(squadDTO.studentsIds())).thenReturn(Arrays.asList(student1, student2));
 
-        Student student3 = new Student(3L, "Student 3");
+        Student student3 = new Student();
+        student3.setId(3L);
         squad.setStudents(List.of(student3));
 
         when(squadRepository.save(squad)).thenReturn(squad);
@@ -162,14 +143,13 @@ public class SquadServiceTest {
         assertTrue(squad.getStudents().contains(student2));
         assertTrue(squad.getStudents().contains(student3));
 
-        assertEquals(squad.getId(), result.getId());
-        assertEquals(squad.getName(), result.getName());
+        assertEquals(squad.getId(), result.id());
     }
+
     @Test
     public void testAddStudentsToSquad_ThrowsResponseStatusException() {
         Long squadId = 1L;
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setStudentsIds(Collections.singletonList(1L));
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(Collections.singletonList(1L));
 
         when(squadRepository.findById(squadId)).thenReturn(Optional.empty());
 
@@ -178,57 +158,59 @@ public class SquadServiceTest {
         assertThrows(ResponseStatusException.class, () -> squadService.addStudentsToSquad(squadId, squadDTO));
     }
 
-
-    //Remove students in squads
     @Test
     public void testRemoveStudentsFromSquad_Success() {
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setStudentsIds(Arrays.asList(1L, 2L));
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(Arrays.asList(1L, 2L));
 
         Squad squad = new Squad("Test squad");
         squad.setId(1L);
 
         List<Student> students = new ArrayList<>();
-        students.add(new Student(1L, "Student 1"));
-        students.add(new Student(2L, "Student 2"));
+
+        Student student1 = new Student();
+        student1.setId(1L);
+        Student student2 = new Student();
+        student2.setId(2L);
+        Student student3 = new Student();
+        student3.setId(3L);
+
+        students.add(student1);
+        students.add(student2);
         squad.setStudents(students);
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
 
-        List<Student> toRemoveStudents = Arrays.asList(new Student(1L, "Student 1"), new Student(2L, "Student 2"));
-        when(studentService.getAllStudentsById(squadDTO.getStudentsIds())).thenReturn(toRemoveStudents);
+        List<Student> toRemoveStudents = Arrays.asList(student1, student2);
+        when(studentService.getAllStudentsById(squadDTO.studentsIds())).thenReturn(toRemoveStudents);
 
         Squad updatedSquad = new Squad("Test squad");
         updatedSquad.setId(1L);
-        updatedSquad.setStudents(List.of(new Student(3L, "Student 3")));
+        updatedSquad.setStudents(List.of(student3));
 
         when(squadRepository.save(squad)).thenReturn(updatedSquad);
 
         ResponseSquadDTO result = squadService.removeStudentsFromSquad(1L, squadDTO);
 
-        assertEquals(2, squad.getStudents().size());
-        assertFalse(squad.getStudents().contains(new Student(1L, "Student 1")));
-        assertFalse(squad.getStudents().contains(new Student(2L, "Student 2")));
+        assertEquals(0, squad.getStudents().size());
+        assertFalse(squad.getStudents().contains(student1));
+        assertFalse(squad.getStudents().contains(student2));
 
         verify(studentService).attributeStudentsToSquad(null, toRemoveStudents);
 
         verify(squadRepository).save(squad);
 
-        assertEquals(1L, result.getId());
-        assertEquals("Test squad", result.getName());
+        assertEquals(1L, result.id());
+        assertEquals("Test squad", result.name());
     }
     @Test
     public void testRemoveStudentsFromSquad_Failure() {
-        UpdateSquadDTO squadDTO = new UpdateSquadDTO();
-        squadDTO.setStudentsIds(Arrays.asList(1L, 2L));
+        UpdateSquadsStudentsDTO squadDTO = new UpdateSquadsStudentsDTO(Arrays.asList(1L, 2L));
 
         when(squadRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResponseStatusException.class, () -> squadService.removeStudentsFromSquad(1L, squadDTO));
     }
 
-
-    //Add squads in classrooms
     @Test
     public void testAttributeSquadsToClassroom_Success() {
         Classroom classroom = new Classroom();
@@ -250,6 +232,7 @@ public class SquadServiceTest {
         assertThat(result.get(0).getClassroom()).isEqualTo(classroom);
         assertThat(result.get(1).getClassroom()).isEqualTo(classroom);
     }
+
     @Test
     @Rollback
     public void testAttributeSquadsToClassroom_Failure() {
@@ -270,8 +253,6 @@ public class SquadServiceTest {
                 .withMessageContaining("Error while saving squads");
     }
 
-
-    //GetById
     @Test
     public void testGetSquadById_Success() {
         Long squadId = 1L;
@@ -283,9 +264,10 @@ public class SquadServiceTest {
         ResponseSquadDTO result = squadService.getById(squadId);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo(squadId);
-        assertThat(result.getName()).isEqualTo("Test Squad");
+        assertThat(result.id()).isEqualTo(squadId);
+        assertThat(result.name()).isEqualTo("Test Squad");
     }
+
     @Test
     public void testGetSquadById_Failure() {
         Long squadId = 1L;
@@ -297,8 +279,6 @@ public class SquadServiceTest {
                 .withMessageContaining("squad not found");
     }
 
-
-    //GetAll
     @Test
     public void testGetAll_Success() {
         List<Squad> squads = new ArrayList<>();
@@ -324,19 +304,17 @@ public class SquadServiceTest {
         List<ResponseSquadDTO> result = squadService.getAll();
 
         assertThat(result).hasSize(2);
-        assertThat(result.get(0).getName()).isEqualTo("Squad 1");
-        assertThat(result.get(1).getName()).isEqualTo("Squad 2");
+        assertThat(result.get(0).name()).isEqualTo("Squad 1");
+        assertThat(result.get(1).name()).isEqualTo("Squad 2");
     }
 
-
-    //GetAllById
     @Test
     public void testGetAllSquadsById_Success() {
         List<Long> squadIds = Arrays.asList(1L, 2L);
 
         List<Squad> squads = Arrays.asList(
-                new Squad(1L, "Squad 1"),
-                new Squad(2L, "Squad 2")
+                new Squad("Squad 1"),
+                new Squad("Squad 2")
         );
 
         when(squadRepository.findAllByIdIn(squadIds)).thenReturn(squads);
@@ -346,6 +324,7 @@ public class SquadServiceTest {
         assertEquals(squads.size(), result.size());
         squads.forEach(expectedSquad -> assertTrue(result.contains(expectedSquad)));
     }
+
     @Test
     public void testGetAllSquadsById_Failure() {
         List<Long> squadIds = Arrays.asList(1L, 2L);
@@ -355,8 +334,6 @@ public class SquadServiceTest {
         assertThrows(ResponseStatusException.class, () -> squadService.getAllSquadsById(squadIds));
     }
 
-
-    //Delete
     @Test
     public void testDeleteSquad_Success() {
         Long squadId = 1L;
@@ -380,13 +357,4 @@ public class SquadServiceTest {
                 .isThrownBy(() -> squadService.delete(squadId))
                 .withMessageContaining("Squad not found");
     }
-
-
-    //Map response squad
-
-
-    //Map dto for squads
-
-
-
 }

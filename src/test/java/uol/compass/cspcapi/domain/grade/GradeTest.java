@@ -6,6 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //@SpringBootTest
@@ -16,15 +19,35 @@ public class GradeTest {
 
     @BeforeEach
     public void setUp() {
-        // Create a new Grade object before each test
-        grade = new Grade(8.5, 7.0, 9.0, 6.5, 8.0, 7.5);
+        grade = new Grade(
+                new BigDecimal(8.5),
+                new BigDecimal(7.0),
+                new BigDecimal(9.0),
+                new BigDecimal(6.5),
+                new BigDecimal(8.0),
+                new BigDecimal(7.5)
+        );
     }
 
     @Test
     public void testCalculateFinalGrade() {
-        // Ensure that the final grade is calculated correctly
-        Double expectedFinalGrade = (8.5 + 7.0 + 9.0 + 6.5 + 8.0 + 7.5) / 6;
-        Double actualFinalGrade = grade.calculateFinalGrade(
+        BigDecimal multiplier = new BigDecimal(1);
+        BigDecimal communication = new BigDecimal(8.5);
+        BigDecimal collaboration = new BigDecimal(7.0);
+        BigDecimal autonomy = new BigDecimal(9.0);
+        BigDecimal quiz = new BigDecimal(6.5);
+        BigDecimal individualChallenge = new BigDecimal(8.0);
+        BigDecimal squadChallenge = new BigDecimal(7.5);
+
+        BigDecimal expectedFinalGrade = communication.multiply(multiplier)
+                .add(collaboration.multiply(multiplier))
+                .add(autonomy.multiply(multiplier))
+                .add(quiz.multiply(multiplier))
+                .add(individualChallenge.multiply(multiplier))
+                .add(squadChallenge.multiply(multiplier))
+                .divide(new BigDecimal("6"), RoundingMode.HALF_UP);
+
+        BigDecimal actualFinalGrade = grade.calculateFinalGrade(
                 grade.getCommunication(),
                 grade.getCollaboration(),
                 grade.getAutonomy(),
@@ -33,20 +56,19 @@ public class GradeTest {
                 grade.getSquadChallenge()
         );
 
-        assertEquals(expectedFinalGrade, actualFinalGrade, 0.001);
+        assertEquals(expectedFinalGrade, actualFinalGrade);
     }
 
     @Test
     public void testGettersAndSetters() {
-        // Test the getters and setters for all fields
         Long id = 1L;
-        Double communication = 9.0;
-        Double collaboration = 8.0;
-        Double autonomy = 7.5;
-        Double quiz = 6.0;
-        Double individualChallenge = 9.5;
-        Double squadChallenge = 8.5;
-        Double finalGrade = grade.calculateFinalGrade(communication, collaboration, autonomy, quiz, individualChallenge, squadChallenge);
+        BigDecimal communication = new BigDecimal(9.0);
+        BigDecimal collaboration = new BigDecimal(8.0);
+        BigDecimal autonomy = new BigDecimal(7.5);
+        BigDecimal quiz = new BigDecimal(6.0);
+        BigDecimal individualChallenge = new BigDecimal(9.5);
+        BigDecimal squadChallenge = new BigDecimal(8.5);
+        BigDecimal finalGrade = grade.calculateFinalGrade(communication, collaboration, autonomy, quiz, individualChallenge, squadChallenge);
 
         grade.setCommunication(communication);
         grade.setCollaboration(collaboration);

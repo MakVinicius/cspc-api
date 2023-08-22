@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 @Getter
 @Setter
@@ -15,15 +18,15 @@ public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double communication;
-    private Double collaboration;
-    private Double autonomy;
-    private Double quiz;
-    private Double individualChallenge;
-    private Double squadChallenge;
-    private Double finalGrade;
+    private BigDecimal communication;
+    private BigDecimal collaboration;
+    private BigDecimal autonomy;
+    private BigDecimal quiz;
+    private BigDecimal individualChallenge;
+    private BigDecimal squadChallenge;
+    private BigDecimal finalGrade;
 
-    public Grade(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
+    public Grade(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
         this.communication = communication;
         this.collaboration = collaboration;
         this.autonomy = autonomy;
@@ -33,8 +36,17 @@ public class Grade {
         this.finalGrade = calculateFinalGrade(communication, collaboration, autonomy, quiz, individualChallenge, squadChallenge);
     }
 
-    public Double calculateFinalGrade(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
-        Double result = ((communication * 1) + (collaboration * 1) + (autonomy * 1) + (quiz * 1) + (individualChallenge * 1) + (squadChallenge * 1)) / 6;
+    public BigDecimal calculateFinalGrade(BigDecimal communication, BigDecimal collaboration, BigDecimal autonomy, BigDecimal quiz, BigDecimal individualChallenge, BigDecimal squadChallenge) {
+        BigDecimal multiplier = new BigDecimal("1");
+
+        BigDecimal result = communication.multiply(multiplier)
+                .add(collaboration.multiply(multiplier))
+                .add(autonomy.multiply(multiplier))
+                .add(quiz.multiply(multiplier))
+                .add(individualChallenge.multiply(multiplier))
+                .add(squadChallenge.multiply(multiplier))
+                .divide(new BigDecimal("6"), RoundingMode.HALF_UP);
+
         return result;
     }
 }

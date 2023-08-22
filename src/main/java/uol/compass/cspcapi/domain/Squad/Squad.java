@@ -2,12 +2,18 @@ package uol.compass.cspcapi.domain.Squad;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import uol.compass.cspcapi.domain.classroom.Classroom;
 import uol.compass.cspcapi.domain.student.Student;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "squads")
 public class Squad {
@@ -24,49 +30,11 @@ public class Squad {
     @JoinColumn(name = "classroom_id", referencedColumnName = "id")
     private Classroom classroom;
 
-    public Squad() {
-    }
-
     public Squad(String name) {
         this.name = name;
     }
 
     public Squad(List<Student> students) {
         this.students = students;
-    }
-
-    public Squad(long id, String name) {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    public Classroom getClassroom() {
-        return classroom;
-    }
-
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
     }
 }

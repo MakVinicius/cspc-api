@@ -13,21 +13,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import uol.compass.cspcapi.application.api.auth.dto.LoginDTO;
-import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomDTO;
 import uol.compass.cspcapi.application.api.grade.dto.UpdateGradeDTO;
-import uol.compass.cspcapi.application.api.scrumMaster.dto.CreateScrumMasterDTO;
-import uol.compass.cspcapi.application.api.scrumMaster.dto.UpdateScrumMasterDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
-import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTOTest;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
-import uol.compass.cspcapi.domain.grade.Grade;
-import uol.compass.cspcapi.domain.student.Student;
 import uol.compass.cspcapi.domain.user.User;
 
-import java.util.Arrays;
-import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -70,7 +65,7 @@ public class StudentControllerIT {
         String password = "password";
 
         CreateStudentDTO studentDTO = new CreateStudentDTO(
-                new CreateUserDTO(firstName, lastName, email, password)
+                new CreateUserDTO(firstName, lastName, email, password, null)
         );
 
         String authToken = login();
@@ -160,7 +155,7 @@ public class StudentControllerIT {
     @Test
     public void testUpdateStudent_Success() throws Exception {
         Long studentId = 2L;
-        UpdateUserDTO updatedUser = new UpdateUserDTO("Update", "User", "updatedemail1@mail.com", "udpatedpassword");
+        UpdateUserDTO updatedUser = new UpdateUserDTO("Update", "User", "updatedemail1@mail.com", "udpatedpassword", null);
         UpdateStudentDTO scrumMasterDTO = new UpdateStudentDTO(updatedUser);
 
         String authToken = login();
@@ -170,9 +165,9 @@ public class StudentControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(scrumMasterDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.user.firstName").value(updatedUser.getFirstName()))
-                .andExpect(jsonPath("$.user.lastName").value(updatedUser.getLastName()))
-                .andExpect(jsonPath("$.user.email").value(updatedUser.getEmail()))
+                .andExpect(jsonPath("$.user.firstName").value(updatedUser.firstName()))
+                .andExpect(jsonPath("$.user.lastName").value(updatedUser.lastName()))
+                .andExpect(jsonPath("$.user.email").value(updatedUser.email()))
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
@@ -182,9 +177,9 @@ public class StudentControllerIT {
         String responseEmail = JsonPath.read(responseJson, "$.user.email");
 
 
-        assertEquals(updatedUser.getFirstName(), responseFirstName);
-        assertEquals(updatedUser.getLastName(), responseLastName);
-        assertEquals(updatedUser.getEmail(), responseEmail);
+        assertEquals(updatedUser.firstName(), responseFirstName);
+        assertEquals(updatedUser.lastName(), responseLastName);
+        assertEquals(updatedUser.email(), responseEmail);
     }
 
     @Disabled
@@ -204,13 +199,21 @@ public class StudentControllerIT {
     @Disabled
     @Test
     public void testUpdateGradesFromStudent_Success() throws Exception {
-        Double communication = 6.4;
-        Double collaboration = 6.7;
-        Double autonomy = 7.5;
-        Double quiz = 6.8;
-        Double individualChallenge = 8.7;
-        Double squadChallenge = 10.00;
-        Double finalGrade = ((communication + collaboration + autonomy + quiz + individualChallenge + squadChallenge) / 6 );
+        BigDecimal communication = new BigDecimal(6.4);
+        BigDecimal collaboration = new BigDecimal(6.7);
+        BigDecimal autonomy = new BigDecimal(7.5);
+        BigDecimal quiz = new BigDecimal(6.8);
+        BigDecimal individualChallenge = new BigDecimal(8.7);
+        BigDecimal squadChallenge = new BigDecimal(10.00);
+
+        BigDecimal multiplier = new BigDecimal(1);
+        BigDecimal finalGrade = communication.multiply(multiplier)
+                .add(collaboration.multiply(multiplier))
+                .add(autonomy.multiply(multiplier))
+                .add(quiz.multiply(multiplier))
+                .add(individualChallenge.multiply(multiplier))
+                .add(squadChallenge.multiply(multiplier))
+                .divide(new BigDecimal("6"), RoundingMode.HALF_UP);
 
         UpdateGradeDTO grades = new UpdateGradeDTO(
                 communication,
@@ -222,7 +225,7 @@ public class StudentControllerIT {
         );
 
         Long studentId = 1L;
-        UpdateStudentDTO studentDTO = new UpdateStudentDTO(grades);
+        UpdateStudentsGradeDTO studentDTO = new UpdateStudentsGradeDTO(grades);
 
         String authToken = login();
 
@@ -250,13 +253,13 @@ public class StudentControllerIT {
         Double studentGradeSquadChallenge = JsonPath.read(responseJson, "$.grades.squadChallenge");
         Double studentGradeFinalGrade = JsonPath.read(responseJson, "$.grades.finalGrade");
 
-        assertEquals(communication, studentGradeCommunication, 0.01);
-        assertEquals(collaboration, studentGradeCollaboration, 0.01);
-        assertEquals(autonomy, studentGradeAutonomy, 0.01);
-        assertEquals(quiz, studentGradeQuiz, 0.01);
-        assertEquals(individualChallenge, studentGradeIndividualChallenge, 0.01);
-        assertEquals(squadChallenge, studentGradeSquadChallenge, 0.01);
-        assertEquals(finalGrade, studentGradeFinalGrade, 0.01);
+        assertEquals(communication, studentGradeCommunication);
+        assertEquals(collaboration, studentGradeCollaboration);
+        assertEquals(autonomy, studentGradeAutonomy);
+        assertEquals(quiz, studentGradeQuiz);
+        assertEquals(individualChallenge, studentGradeIndividualChallenge);
+        assertEquals(squadChallenge, studentGradeSquadChallenge);
+        assertEquals(finalGrade, studentGradeFinalGrade);
     }
 
 

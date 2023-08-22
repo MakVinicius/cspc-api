@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.coordinator.dto.CreateCoordinatorDTO;
 import uol.compass.cspcapi.application.api.coordinator.dto.ResponseCoordinatorDTO;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
+import uol.compass.cspcapi.domain.classroom.ClassroomRepository;
 import uol.compass.cspcapi.domain.role.Role;
 import uol.compass.cspcapi.domain.role.RoleRepository;
 import uol.compass.cspcapi.domain.role.RoleService;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 public class CoordinatorServiceSaveTest {
     private static CoordinatorRepository coordinatorRepository;
+    private static ClassroomRepository classroomRepository;
     private static UserRepository userRepository;
     private static RoleRepository roleRepository;
     private static UserService userService;
@@ -39,13 +41,14 @@ public class CoordinatorServiceSaveTest {
         userRepository = mock(UserRepository.class);
         coordinatorRepository = mock(CoordinatorRepository.class);
         roleRepository = mock(RoleRepository.class);
+        classroomRepository = mock(ClassroomRepository.class);
         mockUserService = mock(UserService.class);
         mockCoordinatorService = mock(CoordinatorService.class);
 
         userService = new UserService(userRepository, new PasswordEncoder());
         roleService = new RoleService(roleRepository);
 //        coordinatorService = new coordinatorService(instructorRepository, userService, new PasswordEncoder(), roleService);
-        coordinatorService = new CoordinatorService(coordinatorRepository, mockUserService, new PasswordEncoder(), roleService);
+        coordinatorService = new CoordinatorService(coordinatorRepository, mockUserService, classroomRepository, new PasswordEncoder(), roleService);
     }
 
     @AfterEach()
@@ -60,7 +63,7 @@ public class CoordinatorServiceSaveTest {
     public void testSave_Success() {
         User user = new User("John", "Doe", "johndoe@compass.com", "password");
         Coordinator coordinator = new Coordinator(user);
-        CreateUserDTO userDTO = new CreateUserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+        CreateUserDTO userDTO = new CreateUserDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), "linkedInLink");
         CreateCoordinatorDTO coordinatorDTO = new CreateCoordinatorDTO(userDTO);
 
         coordinator.setId(1L);
@@ -71,17 +74,16 @@ public class CoordinatorServiceSaveTest {
 
         ResponseCoordinatorDTO result = coordinatorService.save(coordinatorDTO);
 
-        assertEquals(coordinator.getId(), result.getId());
-        assertEquals(coordinator.getUser().getFirstName(), result.getUser().getFirstName());
-        assertEquals(coordinator.getUser().getLastName(), result.getUser().getLastName());
-        assertEquals(coordinator.getUser().getEmail(), result.getUser().getEmail());
+        assertEquals(coordinator.getId(), result.id());
+        assertEquals(coordinator.getUser().getFirstName(), result.user().firstName());
+        assertEquals(coordinator.getUser().getLastName(), result.user().lastName());
+        assertEquals(coordinator.getUser().getEmail(), result.user().email());
     }
 
     @Test
     public void testSave_Failure() {
-        CreateCoordinatorDTO coordinatorDTO = new CreateCoordinatorDTO();
-        CreateUserDTO userDTO = new CreateUserDTO("John", "Doe", "johndoe@compass.com", "password");
-        coordinatorDTO.setUser(userDTO);
+        CreateUserDTO userDTO = new CreateUserDTO("John", "Doe", "johndoe@compass.com", "password", "linkedInLink");
+        CreateCoordinatorDTO coordinatorDTO = new CreateCoordinatorDTO(userDTO);
 
         User existingUser = new User("Jane", "Smith", "johndoe@compass.com", "hashed_password");
 
