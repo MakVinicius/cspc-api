@@ -1,9 +1,9 @@
 package uol.compass.cspcapi.application.api.classroom.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
+
+import java.math.BigDecimal;
 
 public record CreateClassroomDTO (
         @NotBlank(message = "title must not be empty")
@@ -12,6 +12,10 @@ public record CreateClassroomDTO (
 
         @NotNull(message = "coordinatorId must not be null")
         @Range(min = 0, message = "coordinatorId must be equal to or greater than 0")
-        Long coordinatorId
+        Long coordinatorId,
+
+        @DecimalMin(value = "0.00", message = "progress can be 0 at minimum")
+        @DecimalMax(value = "100.00", message = "progress can be 100 at max")
+        BigDecimal progress
 ) {
 }

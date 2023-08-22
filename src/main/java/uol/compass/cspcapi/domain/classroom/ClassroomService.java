@@ -62,7 +62,8 @@ public class ClassroomService {
 
         Classroom classroom = new Classroom(
                 classroomDTO.title(),
-                coordinator
+                coordinator,
+                classroomDTO.progress()
         );
 
         Classroom savedClassroom = classroomRepository.save(classroom);
@@ -97,6 +98,7 @@ public class ClassroomService {
         //classrooms.setTitle(classrooms.getTitle());
         classroom.setTitle(classroomDTO.title());
         classroom.setCoordinator(coordinatorService.getByIdOriginal(classroomDTO.coordinatorId()));
+        classroom.setProgress(classroomDTO.progress());
 
         Classroom updatedClassroom = classroomRepository.save(classroom);
 
@@ -305,6 +307,7 @@ public class ClassroomService {
                 classroom.getId(),
                 classroom.getTitle(),
                 coordinatorService.mapToResponseCoordinator(classroom.getCoordinator()),
+                classroom.getProgress(),
                 studentService.mapToResponseStudents(classroom.getStudents()),
                 instructorService.mapToResponseInstructors(classroom.getInstructors()),
                 scrumMasterService.mapToResponseScrumMasters(classroom.getScrumMasters()),

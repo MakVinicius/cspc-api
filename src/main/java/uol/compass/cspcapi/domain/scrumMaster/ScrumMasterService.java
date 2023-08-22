@@ -52,7 +52,8 @@ public class ScrumMasterService {
                 scrumMaster.user().firstName(),
                 scrumMaster.user().lastName(),
                 scrumMaster.user().email(),
-                passwordEncrypt.encoder().encode(scrumMaster.user().password())
+                passwordEncrypt.encoder().encode(scrumMaster.user().password()),
+                scrumMaster.user().linkedInLink()
         );
 
         user.getRoles().add(roleService.findRoleByName("ROLE_SCRUM_MASTER"));
@@ -96,6 +97,7 @@ public class ScrumMasterService {
         user.setLastName(scrumMasterDTO.user().lastName());
         user.setEmail(scrumMasterDTO.user().email());
         user.setPassword(passwordEncrypt.encoder().encode(scrumMasterDTO.user().password()));
+        user.setLinkedInLink(scrumMasterDTO.user().linkedInLink());
 
         scrumMaster.setUser(user);
 

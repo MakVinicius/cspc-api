@@ -56,7 +56,8 @@ public class CoordinatorService {
                 coordinator.user().firstName(),
                 coordinator.user().lastName(),
                 coordinator.user().email(),
-                passwordEncrypt.encoder().encode(coordinator.user().password())
+                passwordEncrypt.encoder().encode(coordinator.user().password()),
+                coordinator.user().linkedInLink()
         );
       
         user.getRoles().add(roleService.findRoleByName("ROLE_COORDINATOR"));
@@ -70,7 +71,8 @@ public class CoordinatorService {
                         coordinatorDb.getUser().getId(),
                         coordinatorDb.getUser().getFirstName(),
                         coordinatorDb.getUser().getLastName(),
-                        coordinatorDb.getUser().getEmail()
+                        coordinatorDb.getUser().getEmail(),
+                        coordinatorDb.getUser().getLinkedInLink()
                 )
         );
 
@@ -120,6 +122,7 @@ public class CoordinatorService {
         user.setLastName(coordinatorDTO.user().lastName());
         user.setEmail(coordinatorDTO.user().email());
         user.setPassword(passwordEncrypt.encoder().encode(coordinatorDTO.user().password()));
+        user.setLinkedInLink(coordinatorDTO.user().linkedInLink());
 
         coordinator.setUser(user);
 
@@ -131,7 +134,8 @@ public class CoordinatorService {
                         updatedCoordinator.getUser().getId(),
                         updatedCoordinator.getUser().getFirstName(),
                         updatedCoordinator.getUser().getLastName(),
-                        updatedCoordinator.getUser().getEmail()
+                        updatedCoordinator.getUser().getEmail(),
+                        updatedCoordinator.getUser().getLinkedInLink()
                 )
         );
 

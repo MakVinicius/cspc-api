@@ -50,7 +50,8 @@ public class InstructorService {
                 instructor.user().firstName(),
                 instructor.user().lastName(),
                 instructor.user().email(),
-                passwordEncrypt.encoder().encode(instructor.user().password())
+                passwordEncrypt.encoder().encode(instructor.user().password()),
+                instructor.user().linkedInLink()
         );
 
         user.getRoles().add(roleService.findRoleByName("ROLE_INSTRUCTOR"));
@@ -72,7 +73,8 @@ public class InstructorService {
                         instructorDb.getUser().getId(),
                         instructorDb.getUser().getFirstName(),
                         instructorDb.getUser().getLastName(),
-                        instructorDb.getUser().getEmail()
+                        instructorDb.getUser().getEmail(),
+                        instructorDb.getUser().getLinkedInLink()
                 ),
                 classroomId
         );
@@ -101,7 +103,8 @@ public class InstructorService {
                         instructor.getUser().getId(),
                         instructor.getUser().getFirstName(),
                         instructor.getUser().getLastName(),
-                        instructor.getUser().getEmail()
+                        instructor.getUser().getEmail(),
+                        instructor.getUser().getLinkedInLink()
                 ),
                 classroomId
         );
@@ -128,6 +131,7 @@ public class InstructorService {
         user.setLastName(instructorDTO.user().lastName());
         user.setEmail(instructorDTO.user().email());
         user.setPassword(passwordEncrypt.encoder().encode(instructorDTO.user().password()));
+        user.setLinkedInLink(instructorDTO.user().linkedInLink());
 
         instructor.setUser(user);
 
@@ -147,7 +151,8 @@ public class InstructorService {
                         updatedInstructor.getUser().getId(),
                         updatedInstructor.getUser().getFirstName(),
                         updatedInstructor.getUser().getLastName(),
-                        updatedInstructor.getUser().getEmail()
+                        updatedInstructor.getUser().getEmail(),
+                        updatedInstructor.getUser().getLinkedInLink()
                 ),
                 classroomId
         );

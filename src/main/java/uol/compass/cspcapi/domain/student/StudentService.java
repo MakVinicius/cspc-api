@@ -54,7 +54,8 @@ public class StudentService {
                 student.user().firstName(),
                 student.user().lastName(),
                 student.user().email(),
-                passwordEncrypt.encoder().encode(student.user().password())
+                passwordEncrypt.encoder().encode(student.user().password()),
+                student.user().linkedInLink()
         );
       
         user.getRoles().add(roleService.findRoleByName("ROLE_STUDENT"));
@@ -98,6 +99,7 @@ public class StudentService {
         user.setLastName(studentDTO.user().lastName());
         user.setEmail(studentDTO.user().email());
         user.setPassword(passwordEncrypt.encoder().encode(studentDTO.user().password()));
+        user.setLinkedInLink(studentDTO.user().linkedInLink());
 
         student.setUser(user);
 

@@ -19,6 +19,8 @@ public record UpdateUserDTO (
 
         @NotBlank(message = "password must not be empty")
         @Size(min = 8, message = "password length must be at least 8 characters long")
-        String password
+        String password,
+
+        String linkedInLink
 ) {
 }
