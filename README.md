@@ -1,15 +1,22 @@
 
 # Compass Classrooms - API
-### Proposta Ponto Extra
-Adicionar o Flyway e utilizar migrations para manipulação do Banco de Dados e fazer algumas alterações.
-Implementar a Classe Record para simplificação dos DTOs do projeto. 
+### Extra Point Activity
+1. Implement the Record Class within the project.
+2. Add Flyway and utilize migrations for Database manipulation and make some changes.
 
-### Proposta de solução Mak Vinícius
-Alterei quase todos os DTOs do projeto para implementação da classe Record do Java. As implementações podem ser visualizadas dentro do diretório >aa>aaa>
-Para o Flyway eu adicionei algumas alterações nas entidades do projeto. 
-- Para a classe User eu adicionei o campo linkedInLink do tipo String para representar o link do perfil do LinkedIn da pessoa;
-- Para a classe Classroom eu adicionei o campo progress do tipo BigDecimal para representar a porcentaegm de conclusão da trilha que a classroom representa;
-- Para a classe Grade eu alterei o tipo das variáveis de Double para BigDecimal. Com essa mudança é possível colocar limites para os valores com as anotações @DecimalMin e @DecimalMax de forma que o usuário deve sempre informar notas entre 0.00 e 10.00;
+### Mak Vinicius's Solution
+Most of the project's DTOs have been modified to implement the Java Record class. The implementations can be viewed within the directory ".../application/api". Inside each of the directories, there are folders called DTOs. <br></br>
+Several changes have been made to the project's database for Flyway.
+
+- For the "users" table, a "linkedin_link" column of type String was added to represent a person's LinkedIn profile link.<br></br>
+
+- For the "classrooms" table, a "progress" column of type BigDecimal was added to represent the percentage of completion for the respective classroom's scholarship program.<br></br>
+
+- Inside the "grades" table, the columns types were changed from Double to BigDecimal. With this change, it's possible to set limits for the values using annotations such as @DecimalMin and @DecimalMax, ensuring that users always provide grades between 0.00 and 10.00.<br></br>
+
+<p>Additionally, the Lombok dependency was added to reduce the amount of code within the project. Annotations like @Getter, @Setter, and @NoArgsConstructor were used.<br>
+Some data validations were added within the DTOs, such as @NotNull, @DecimalMin, @DecimalMax etc.<br>
+In the resources directory, there is a file named XYZ that contains the Postman endpoints for the evaluator to test the application.</p>
 
 ### Segundo desafio
 
@@ -42,7 +49,7 @@ The system consists of the creation of a classroom manager, abstracting the oper
 | `email`      | `string` | **Mandatory**. user`s email/username |
 | `password`      | `string` | **Mandatory**. user`s password |
 
-whil create a user for first access
+will create a user for first access
 
 ---
 
@@ -55,7 +62,7 @@ whil create a user for first access
 | `username`      | `string` | **Mandatory**. user`s email/username |
 | `password`      | `string` | **Mandatory**. user`s password |
 
-whil return a jwt token, to authenticate any other protected resources
+will return a jwt token, to authenticate any other protected resources
 
 ---
 
@@ -66,7 +73,7 @@ whil return a jwt token, to authenticate any other protected resources
 Clone the project
 
 ```bash
-  git clone https://github.com/ThiagoHenriqueFP/cspc-api
+  git clone https://github.com/MakVinicius/cspc-api.git
 ```
 
 Move to project directory
