@@ -58,7 +58,13 @@ public class ClassroomService {
             );
         }
 
-        Coordinator coordinator = coordinatorService.getByIdOriginal(coordinatorId);
+        Coordinator coordinator;
+
+        if (coordinatorId != null) {
+            coordinator = coordinatorService.getByIdOriginal(coordinatorId);
+        } else {
+            coordinator = null;
+        }
 
         Classroom classroom = new Classroom(
                 classroomDTO.title(),
@@ -95,9 +101,14 @@ public class ClassroomService {
         Classroom classroom = classroomRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Classroom not found"));
 
-        //classrooms.setTitle(classrooms.getTitle());
         classroom.setTitle(classroomDTO.title());
-        classroom.setCoordinator(coordinatorService.getByIdOriginal(classroomDTO.coordinatorId()));
+
+        if (classroomDTO.coordinatorId() != null) {
+            classroom.setCoordinator(coordinatorService.getByIdOriginal(classroomDTO.coordinatorId()));
+        } else {
+            classroom.setCoordinator(null);
+        }
+
         classroom.setProgress(classroomDTO.progress());
 
         Classroom updatedClassroom = classroomRepository.save(classroom);

@@ -48,13 +48,12 @@ public class UserService {
                     HttpStatus.BAD_REQUEST,
                     "user already exists");
         }
-         User newUser = userRepository.save(new User(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                passwordEncoder.encoder().encode(user.getPassword())
-        ));
-        newUser.getRoles().addAll(user.getRoles());
+
+        user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
+
+        User newUser = userRepository.save(user);
+//        newUser.getRoles().addAll(user.getRoles());
+
         return newUser;
     }
 

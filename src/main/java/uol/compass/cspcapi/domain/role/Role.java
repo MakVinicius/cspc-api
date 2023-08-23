@@ -20,8 +20,8 @@ public class Role {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
+//    @ManyToMany(mappedBy = "roles")
+//    private List<User> users = new ArrayList<>();
 
     private String name;
 

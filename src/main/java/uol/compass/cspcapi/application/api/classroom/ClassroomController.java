@@ -28,7 +28,13 @@ public class ClassroomController {
     //Create Classroom
     @PostMapping
     public ResponseEntity<ResponseClassroomDTO> createClassroom(@Valid @RequestBody CreateClassroomDTO classroomDTO) {
-        Long coordinatorId = classroomDTO.coordinatorId();
+        Long coordinatorId;
+        if (classroomDTO.coordinatorId() != null) {
+            coordinatorId = classroomDTO.coordinatorId();
+        } else {
+            coordinatorId = null;
+        }
+
         return new ResponseEntity<>(
                 classroomService.saveClassroom(classroomDTO, coordinatorId),
                 HttpStatus.CREATED

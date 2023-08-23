@@ -10,8 +10,6 @@ public record CreateClassroomDTO (
         @Size(min = 3, message = "title must be at least 3 characters long")
         String title,
 
-        @NotNull(message = "coordinatorId must not be null")
-        @Range(min = 0, message = "coordinatorId must be equal to or greater than 0")
         Long coordinatorId,
 
         @DecimalMin(value = "0.00", message = "progress can be 0 at minimum")

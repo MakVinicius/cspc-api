@@ -1,5 +1,16 @@
 
 # Compass Classrooms - API
+### Proposta Ponto Extra
+Adicionar o Flyway e utilizar migrations para manipulação do Banco de Dados e fazer algumas alterações.
+Implementar a Classe Record para simplificação dos DTOs do projeto. 
+
+### Proposta de solução Mak Vinícius
+Alterei quase todos os DTOs do projeto para implementação da classe Record do Java. As implementações podem ser visualizadas dentro do diretório >aa>aaa>
+Para o Flyway eu adicionei algumas alterações nas entidades do projeto. 
+- Para a classe User eu adicionei o campo linkedInLink do tipo String para representar o link do perfil do LinkedIn da pessoa;
+- Para a classe Classroom eu adicionei o campo progress do tipo BigDecimal para representar a porcentaegm de conclusão da trilha que a classroom representa;
+- Para a classe Grade eu alterei o tipo das variáveis de Double para BigDecimal. Com essa mudança é possível colocar limites para os valores com as anotações @DecimalMin e @DecimalMax de forma que o usuário deve sempre informar notas entre 0.00 e 10.00;
+
 ### Segundo desafio
 
 #### PT BR

@@ -35,7 +35,7 @@ ALTER TABLE users_roles ADD CONSTRAINT fk_userol_on_user FOREIGN KEY (user_id) R
 
 -- Create Coordinators table
 CREATE TABLE coordinators (
-    id BIGINT AUTO_INCREMENT NOT NULL,
+    id BIGINT AUTO_INCREMENT UNIQUE,
     user_id BIGINT NULL,
     CONSTRAINT pk_coordinators PRIMARY KEY (id)
 );
@@ -46,7 +46,7 @@ ALTER TABLE coordinators ADD CONSTRAINT FK_COORDINATORS_ON_USER FOREIGN KEY (use
 CREATE TABLE classrooms (
     id BIGINT AUTO_INCREMENT NOT NULL,
     title VARCHAR(100) NOT NULL,
-    coordinator_id BIGINT NOT NULL,
+    coordinator_id BIGINT NULL,
     CONSTRAINT pk_classrooms PRIMARY KEY (id)
 );
 

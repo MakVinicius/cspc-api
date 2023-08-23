@@ -160,9 +160,17 @@ public class CoordinatorService {
     }
 
     public ResponseCoordinatorDTO mapToResponseCoordinator(Coordinator coordinator) {
-        return new ResponseCoordinatorDTO(
-                coordinator.getId(),
-                userService.mapToResponseUser(coordinator.getUser())
-        );
+        ResponseCoordinatorDTO responseCoordinatorDTO;
+
+        if (coordinator != null) {
+            responseCoordinatorDTO = new ResponseCoordinatorDTO(
+                    coordinator.getId(),
+                    userService.mapToResponseUser(coordinator.getUser())
+            );
+        } else {
+            responseCoordinatorDTO = null;
+        }
+
+        return responseCoordinatorDTO;
     }
 }
