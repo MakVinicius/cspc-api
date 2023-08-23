@@ -1,0 +1,3186 @@
+{
+	"info": {
+		"_postman_id": "a0ebd021-6240-4d6c-9a27-b19742cb7582",
+		"name": "All Possible Requests of API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26327564",
+		"_collection_link": "https://www.postman.com/makvinicius/workspace/modern-bugs/collection/26327564-a0ebd021-6240-4d6c-9a27-b19742cb7582?action=share&source=collection_link&creator=26327564"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "RegisterAdmin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Admin\",\n    \"lastName\": \"Ademiro\",\n    \"email\": \"admin@mail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@mail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "CreateStudent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gabriel\",\r\n        \"lastName\": \"Lopes\",\r\n        \"email\": \"gabriel.lopes.pb@compasso.com.br\",\r\n        \"password\": \"gabriel.lopes.pb\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetStudentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllStudents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateStudentById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Heitor\",\r\n        \"lastName\": \"Ferreira\",\r\n        \"email\": \"heitor.ferreira.pb@compasso.com.br\",\r\n        \"password\": \"heitor.ferreira.pb\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/heitorferreira\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteStudentById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateGradesToStudent",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grades\": {\r\n        \"communication\": 7.9,\r\n        \"collaboration\": 8.7,\r\n        \"autonomy\": 7.8,\r\n        \"quiz\": 6.2,\r\n        \"individualChallenge\": 9.5,\r\n        \"squadChallenge\": 7.6\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/students/1/update-grades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"students",
+								"1",
+								"update-grades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Instructors",
+			"item": [
+				{
+					"name": "CreateInstructor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Giovanni\",\r\n        \"lastName\": \"Marchi\",\r\n        \"email\": \"giovanni.marchi@compasso.com.br\",\r\n        \"password\": \"giovanni.marchi\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/instructors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"instructors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetInstructorById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/instructors/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"instructors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAlInstructors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/instructors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"instructors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateInstructorById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Victor\",\r\n        \"lastName\": \"Maciel\",\r\n        \"email\": \"victor.maciel@compasso.com.br\",\r\n        \"password\": \"victor.maciel.pb\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/victormaciel\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/instructors/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"instructors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteInstructorById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/instructors/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"instructors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scrum Masters",
+			"item": [
+				{
+					"name": "CreateScrumMaster",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gilberto\",\r\n        \"lastName\": \"Medeiros\",\r\n        \"email\": \"gilberto.medeiros@compasso.com.br\",\r\n        \"password\": \"gilberto.medeiros\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/gilbertomedeiros\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/scrummasters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"scrummasters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetScrumMasterById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/scrummasters/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"scrummasters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllScrumMasters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/scrummasters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"scrummasters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateScrumMasterById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gilberto\",\r\n        \"lastName\": \"Teste\",\r\n        \"email\": \"gilberto.teste12@compasso.com.br\",\r\n        \"password\": \"gilberto.teste\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/gilbertoteste12\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/scrummasters/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"scrummasters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteScrumMasterById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/scrummasters/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"scrummasters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coordinators",
+			"item": [
+				{
+					"name": "CreateCoordinator",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Hiago\",\r\n        \"lastName\": \"Souza\",\r\n        \"email\": \"hiago.souza@compasso.com.br\",\r\n        \"password\": \"hiago.souza\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/hiagosouza\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/coordinators",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"coordinators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCoordinatorById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/coordinators/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"coordinators",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCoordinators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/coordinators",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"coordinators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCoordinatorById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Rafaela\",\r\n        \"lastName\": \"Silva\",\r\n        \"email\": \"rafaela.silva@compasso.com.br\",\r\n        \"password\": \"rafaela.silva\",\r\n        \"linkedInLink\": \"www.linkedin.com/in/rafaelasilva\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/coordinators/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"coordinators",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCoordinatorById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/coordinators/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"coordinators",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Squads",
+			"item": [
+				{
+					"name": "CreateSquad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Modern Bugs\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSquadById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/squads/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllSquads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSquadById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Spring Study 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/squads/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSquadById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/squads/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddStudentsToSquad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentsIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/squads/1/add-students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads",
+								"1",
+								"add-students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveStudentsFromSquad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentsIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/squads/1/remove-students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"squads",
+								"1",
+								"remove-students"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Classrooms",
+			"item": [
+				{
+					"name": "CreateClassroom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Spring Boot AWS Junho\",\r\n    \"coordinatorId\": 1\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetClassroomById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllClassrooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/classrooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateClassroomById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Spring Boot AWS Fevereiro\",\r\n    \"coordinatorId\": 2,\r\n    \"progress\": 28.56\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteClassroomById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddStudentsToClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1, 2]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/add-students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"add-students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddScrumMastersToClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/add-scrummasters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"add-scrummasters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddInstructorsToClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/add-instructors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"add-instructors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddSquadsToClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/add-squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"add-squads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveStudentsFromClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/remove-students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"remove-students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveScrumMastersFromClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/remove-scrummasters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"remove-scrummasters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveInstructorsFromClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/remove-instructors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"remove-instructors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveSquadsFromClassroom",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/classrooms/1/remove-squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"classrooms",
+								"1",
+								"remove-squads"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data Validation",
+			"item": [
+				{
+					"name": "Students",
+					"item": [
+						{
+							"name": "Student Post Validation",
+							"item": [
+								{
+									"name": "CreateStudent Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateStudent Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateStudent Invalid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Pe\",\r\n        \"lastName\": \"So\",\r\n        \"email\": \"PeSo\",\r\n        \"password\": \"PeSo\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateStudent Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Pedro\",\r\n        \"lastName\": \"Almeida\",\r\n        \"email\": \"pedro.almeida.pb@compasso.com.br\",\r\n        \"password\": \"pedro.almeida.pb\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Student Put Validation",
+							"item": [
+								{
+									"name": "UpdateStudentById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateStudentById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateStudentById Invalid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"He\",\r\n        \"lastName\": \"Al\",\r\n        \"email\": \"HeAl\",\r\n        \"password\": \"HeAl\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateStudentById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Heitor\",\r\n        \"lastName\": \"Ferreira\",\r\n        \"email\": \"heitor.ferreira.pb@compasso.com.br\",\r\n        \"password\": \"heitor.ferreira.pb\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Student Patch Validation",
+							"item": [
+								{
+									"name": "UpdateGradesToStudent Null",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"grades\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1/update-grades",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1",
+												"update-grades"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateGradesToStudent Empty",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"grades\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1/update-grades",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1",
+												"update-grades"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateGradesToStudent Invalid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"grades\": {\r\n        \"communication\": \"17.9\",\r\n        \"collaboration\": \"-2\",\r\n        \"autonomy\": -7.8,\r\n        \"quiz\": 6.2,\r\n        \"individualChallenge\": \"9.5\",\r\n        \"squadChallenge\": 17.6\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1/update-grades",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1",
+												"update-grades"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateGradesToStudent Valid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"grades\": {\r\n        \"communication\": 7.9,\r\n        \"collaboration\": 7.5,\r\n        \"autonomy\": 8.7,\r\n        \"quiz\": 9.4,\r\n        \"individualChallenge\": 9.5,\r\n        \"squadChallenge\": 7.6\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/students/1/update-grades",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"students",
+												"1",
+												"update-grades"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Instructors",
+					"item": [
+						{
+							"name": "Instructor Post Validation",
+							"item": [
+								{
+									"name": "CreateInstructor Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateInstructor Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateInstructor Invalid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Cl\",\r\n        \"lastName\": \"Ju\",\r\n        \"email\": \"ClJu\",\r\n        \"password\": \"ClJu\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateInstructor Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Claudio\",\r\n        \"lastName\": \"Marra\",\r\n        \"email\": \"claudio.marra@compasso.com.br\",\r\n        \"password\": \"claudio.marra\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Instructor Put Validation",
+							"item": [
+								{
+									"name": "UpdateInstructorById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateInstructorById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateInstructorById Invalid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Vi\",\r\n        \"lastName\": \"Ma\",\r\n        \"email\": \"ViMa\",\r\n        \"password\": \"ViMa\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateInstructorById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Victor\",\r\n        \"lastName\": \"Meireles\",\r\n        \"email\": \"victor.meireles@compasso.com.br\",\r\n        \"password\": \"victor.meireles\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/instructors/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"instructors",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ScrumMasters",
+					"item": [
+						{
+							"name": "ScrumMaster Post Validation",
+							"item": [
+								{
+									"name": "CreateScrumMaster Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateScrumMaster Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateScrumMaster Invalid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"gi\",\r\n        \"lastName\": \"me\",\r\n        \"email\": \"gi\",\r\n        \"password\": \"gi\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateScrumMaster Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gilberto\",\r\n        \"lastName\": \"Medeiros\",\r\n        \"email\": \"gilberto.medeiros@compasso.com.br\",\r\n        \"password\": \"gilberto.medeiros\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "ScrumMaster Put Validation",
+							"item": [
+								{
+									"name": "UpdateScrumMasterById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateScrumMasterById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateScrumMasterById Invalid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gi\",\r\n        \"lastName\": \"Te\",\r\n        \"email\": \"GiTe\",\r\n        \"password\": \"GiTe\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateScrumMasterById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Gilberto\",\r\n        \"lastName\": \"Teste\",\r\n        \"email\": \"gilberto.teste@compasso.com.br\",\r\n        \"password\": \"gilberto.teste\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/scrummasters/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"scrummasters",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Coordinators",
+					"item": [
+						{
+							"name": "Coordinator Post Validation",
+							"item": [
+								{
+									"name": "CreateCoordinator Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateCoordinator Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateCoordinator Invalid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    \"firstName\": \"Fa\",\r\n    \"lastName\": \"Ma\",\r\n    \"email\": \"FaMa\",\r\n    \"password\": \"FaMa\"\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateCoordinator Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Fabiane\",\r\n        \"lastName\": \"Lurdes\",\r\n        \"email\": \"fabiane.lurdes@compasso.com.br\",\r\n        \"password\": \"fabiane.lurdes\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Coordinator Put Validation",
+							"item": [
+								{
+									"name": "UpdateCoordinatorById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateCoordinatorById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateCoordinatorById Invalid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Fa\",\r\n        \"lastName\": \"Si\",\r\n        \"email\": \"FaSi\",\r\n        \"password\": \"FaSi\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateCoordinatorById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user\": {\r\n        \"firstName\": \"Fabiane\",\r\n        \"lastName\": \"Silva\",\r\n        \"email\": \"fabiane.silva@compasso.com.br\",\r\n        \"password\": \"fabiane.silva\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/coordinators/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"coordinators",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Squads",
+					"item": [
+						{
+							"name": "Squad Post Validation",
+							"item": [
+								{
+									"name": "CreateSquad Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateSquad Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateSquad Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Modern Bugs\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Squad Put Validation",
+							"item": [
+								{
+									"name": "UpdateSquadById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateSquadById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateSquadById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Spring Study\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Squad Patch Validation",
+							"item": [
+								{
+									"name": "AddStudentsToSquad Null",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToSquad Empty",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToSquad Invalid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": [\"a\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToSquad Valid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": [1]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "RemoveStudentsFromSquad Null",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/remove-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"remove-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "RemoveStudentsFromSquad Empty",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/remove-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"remove-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "RemoveStudentsFromSquad Invalid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": [\"a\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/remove-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"remove-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "RemoveStudentsFromSquad Valid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"studentsIds\": [1]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/squads/1/remove-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"squads",
+												"1",
+												"remove-students"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Classrooms",
+					"item": [
+						{
+							"name": "Classroom Post Validation",
+							"item": [
+								{
+									"name": "CreateClassroom Null",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": null,\r\n    \"coordinatorId\": null\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateClassroom Empty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateClassroom Invalid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Spring Boot AWS Junho\",\r\n    \"coordinatorId\": \"a\"\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CreateClassroom Valid Data",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Spring Boot AWS Junho\",\r\n    \"coordinatorId\": 1\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Classroom Put Validation",
+							"item": [
+								{
+									"name": "UpdateClassroomById Null",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": null,\r\n    \"coordinatorId\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateClassroomById Empty",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateClassroomById Invalid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Modern Spring Boot AWS Maio\",\r\n    \"coordinatorId\": \"a\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateClassroomById Valid Data",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Modern Spring Boot AWS Maio\",\r\n    \"coordinatorId\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Students In Classroom Patch Validation",
+							"item": [
+								{
+									"name": "AddStudentsToClassroom Null",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToClassroom Empty",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToClassroom Invalid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": [\"a\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddStudentsToClassroom Valid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-students",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-students"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Instructors In Classroom Patch Validation",
+							"item": [
+								{
+									"name": "AddInstructorsToClassroom Null",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddInstructorsToClassroom Empty",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddInstructorsToClassroom Invalid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": [\"a\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-instructors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AddInstructorsToClassroom Valid Data",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"generalUsersIds\": [1]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/classrooms/1/add-instructors",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"classrooms",
+												"1",
+												"add-instructors"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5Mjc4OTU4MiwiaWF0IjoxNjkyNzg1OTgyfQ.juY2zA8eb_TxjD6dS0HDSuWwASC6DoErSrpGypZj7gFNLg5SdwlV9ogpxatMfKnpCpWYZlLPeW0XIz3NRG4D8A",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

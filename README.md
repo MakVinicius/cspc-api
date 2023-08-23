@@ -16,7 +16,7 @@ Several changes have been made to the project's database for Flyway.
 
 <p>Additionally, the Lombok dependency was added to reduce the amount of code within the project. Annotations like @Getter, @Setter, and @NoArgsConstructor were used.<br>
 Some data validations were added within the DTOs, such as @NotNull, @DecimalMin, @DecimalMax etc.<br>
-In the resources directory, there is a file named XYZ that contains the Postman endpoints for the evaluator to test the application.</p>
+In the resources directory, there is a file named " Endpoints_Scholarship.postman_collection.json " that contains the Postman endpoints for the evaluator to test the application.</p>
 
 ### Segundo desafio
 
