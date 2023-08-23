@@ -27,9 +27,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenProvider jwtTokenProvider;
-
     private final UserService userService;
-
     private final RoleService roleService;
 
     public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, RoleService roleService) {
@@ -43,8 +41,8 @@ public class AuthController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO login){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        login.getEmail(),
-                        login.getPassword()
+                        login.email(),
+                        login.password()
                 )
         );
 
@@ -59,10 +57,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> saveAdminUser(@Valid @RequestBody CreateUserDTO createUserDTO){
         User user = new User(
-                createUserDTO.getFirstName(),
-                createUserDTO.getLastName(),
-                createUserDTO.getEmail(),
-                createUserDTO.getPassword()
+                createUserDTO.firstName(),
+                createUserDTO.lastName(),
+                createUserDTO.email(),
+                createUserDTO.password()
         );
 
         Role role = roleService.findRoleByName("ROLE_ADMIN");
@@ -72,10 +70,6 @@ public class AuthController {
         }
 
         user.getRoles().add(role);
-
-//        return ResponseEntity.ok(
-//                ResponseDTO.ok(userService.saveUser(user))
-//        );
 
         return new ResponseEntity<>(
                 new ResponseDTO<>(userService.saveUser(user)),

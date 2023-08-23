@@ -9,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.coordinator.dto.CreateCoordinatorDTO;
 import uol.compass.cspcapi.application.api.coordinator.dto.ResponseCoordinatorDTO;
 import uol.compass.cspcapi.application.api.coordinator.dto.UpdateCoordinatorDTO;
+import uol.compass.cspcapi.domain.classroom.Classroom;
+import uol.compass.cspcapi.domain.classroom.ClassroomRepository;
+import uol.compass.cspcapi.domain.classroom.ClassroomService;
 import uol.compass.cspcapi.domain.role.RoleService;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.ResponseUserDTO;
@@ -23,22 +26,24 @@ import java.util.Optional;
 @Service
 public class CoordinatorService {
     private CoordinatorRepository coordinatorRepository;
-    private final UserService userService;
-    private final PasswordEncoder passwordEncrypt;
 
+    private final UserService userService;
+    private final ClassroomRepository classroomRepository;
+    private final PasswordEncoder passwordEncrypt;
     private final RoleService roleService;
 
     @Autowired
-    public CoordinatorService(CoordinatorRepository coordinatorRepository, UserService userService, PasswordEncoder passwordEncrypt, RoleService roleService) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepository, UserService userService, ClassroomRepository classroomRepository, PasswordEncoder passwordEncrypt, RoleService roleService) {
         this.coordinatorRepository = coordinatorRepository;
         this.userService = userService;
+        this.classroomRepository = classroomRepository;
         this.passwordEncrypt = passwordEncrypt;
         this.roleService = roleService;
     }
 
     @Transactional
     public ResponseCoordinatorDTO save(CreateCoordinatorDTO coordinator) {
-        Optional<User> alreadyExists = userService.findByEmail(coordinator.getUser().getEmail());
+        Optional<User> alreadyExists = userService.findByEmail(coordinator.user().email());
 
         if(alreadyExists.isPresent()){
             throw new ResponseStatusException(
@@ -48,10 +53,11 @@ public class CoordinatorService {
         }
 
         User user = new User(
-                coordinator.getUser().getFirstName(),
-                coordinator.getUser().getLastName(),
-                coordinator.getUser().getEmail(),
-                passwordEncrypt.encoder().encode(coordinator.getUser().getPassword())
+                coordinator.user().firstName(),
+                coordinator.user().lastName(),
+                coordinator.user().email(),
+                passwordEncrypt.encoder().encode(coordinator.user().password()),
+                coordinator.user().linkedInLink()
         );
       
         user.getRoles().add(roleService.findRoleByName("ROLE_COORDINATOR"));
@@ -65,7 +71,8 @@ public class CoordinatorService {
                         coordinatorDb.getUser().getId(),
                         coordinatorDb.getUser().getFirstName(),
                         coordinatorDb.getUser().getLastName(),
-                        coordinatorDb.getUser().getEmail()
+                        coordinatorDb.getUser().getEmail(),
+                        coordinatorDb.getUser().getLinkedInLink()
                 )
         );
 
@@ -111,9 +118,11 @@ public class CoordinatorService {
 
         User user = coordinator.getUser();
 
-        user.setFirstName(coordinatorDTO.getUser().getFirstName());
-        user.setLastName(coordinatorDTO.getUser().getLastName());
-        user.setEmail(coordinatorDTO.getUser().getEmail());
+        user.setFirstName(coordinatorDTO.user().firstName());
+        user.setLastName(coordinatorDTO.user().lastName());
+        user.setEmail(coordinatorDTO.user().email());
+        user.setPassword(passwordEncrypt.encoder().encode(coordinatorDTO.user().password()));
+        user.setLinkedInLink(coordinatorDTO.user().linkedInLink());
 
         coordinator.setUser(user);
 
@@ -125,7 +134,8 @@ public class CoordinatorService {
                         updatedCoordinator.getUser().getId(),
                         updatedCoordinator.getUser().getFirstName(),
                         updatedCoordinator.getUser().getLastName(),
-                        updatedCoordinator.getUser().getEmail()
+                        updatedCoordinator.getUser().getEmail(),
+                        updatedCoordinator.getUser().getLinkedInLink()
                 )
         );
 
@@ -143,13 +153,24 @@ public class CoordinatorService {
 
         coordinator.getUser().getRoles().removeAll(coordinator.getUser().getRoles());
 
+        Classroom classroom = classroomRepository.findByCoordinatorId(id);
+        classroom.setCoordinator(null);
+
         coordinatorRepository.delete(coordinator);
     }
 
     public ResponseCoordinatorDTO mapToResponseCoordinator(Coordinator coordinator) {
-        return new ResponseCoordinatorDTO(
-                coordinator.getId(),
-                userService.mapToResponseUser(coordinator.getUser())
-        );
+        ResponseCoordinatorDTO responseCoordinatorDTO;
+
+        if (coordinator != null) {
+            responseCoordinatorDTO = new ResponseCoordinatorDTO(
+                    coordinator.getId(),
+                    userService.mapToResponseUser(coordinator.getUser())
+            );
+        } else {
+            responseCoordinatorDTO = null;
+        }
+
+        return responseCoordinatorDTO;
     }
 }

@@ -17,6 +17,8 @@ import uol.compass.cspcapi.application.api.classroom.dto.CreateClassroomDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomDTO;
 import uol.compass.cspcapi.application.api.scrumMaster.dto.CreateScrumMasterDTO;
 import uol.compass.cspcapi.application.api.scrumMaster.dto.UpdateScrumMasterDTO;
+import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
+import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.coordinator.Coordinator;
 import uol.compass.cspcapi.domain.instructor.Instructor;
@@ -69,7 +71,7 @@ public class ScrumMasterControllerIT {
         String password = "password";
 
         CreateScrumMasterDTO scrumMasterDTO = new CreateScrumMasterDTO(
-                new User(firstName, lastName, email, password)
+                new CreateUserDTO(firstName, lastName, email, password, null)
         );
 
         String authToken = login();
@@ -159,7 +161,7 @@ public class ScrumMasterControllerIT {
     @Test
     public void testUpdateScrumMaster_Success() throws Exception {
         Long scrumMasterId = 2L;
-        User updatedUser = new User("Update", "User", "updatedemail@mail.com", "udpatedpassword");
+        UpdateUserDTO updatedUser = new UpdateUserDTO("Update", "User", "updatedemail@mail.com", "udpatedpassword", null);
         UpdateScrumMasterDTO scrumMasterDTO = new UpdateScrumMasterDTO(updatedUser);
 
         String authToken = login();
@@ -169,9 +171,9 @@ public class ScrumMasterControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(scrumMasterDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.user.firstName").value(updatedUser.getFirstName()))
-                .andExpect(jsonPath("$.user.lastName").value(updatedUser.getLastName()))
-                .andExpect(jsonPath("$.user.email").value(updatedUser.getEmail()))
+                .andExpect(jsonPath("$.user.firstName").value(updatedUser.firstName()))
+                .andExpect(jsonPath("$.user.lastName").value(updatedUser.lastName()))
+                .andExpect(jsonPath("$.user.email").value(updatedUser.email()))
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
@@ -181,9 +183,9 @@ public class ScrumMasterControllerIT {
         String responseEmail = JsonPath.read(responseJson, "$.user.email");
 
 
-        assertEquals(updatedUser.getFirstName(), responseFirstName);
-        assertEquals(updatedUser.getLastName(), responseLastName);
-        assertEquals(updatedUser.getEmail(), responseEmail);
+        assertEquals(updatedUser.firstName(), responseFirstName);
+        assertEquals(updatedUser.lastName(), responseLastName);
+        assertEquals(updatedUser.email(), responseEmail);
     }
 
     @Disabled

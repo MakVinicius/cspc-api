@@ -24,17 +24,17 @@ public class UserService {
 
     @Transactional
     public ResponseUserDTO saveUser (CreateUserDTO userDTO){
-        if(findByEmail(userDTO.getEmail()).isPresent()){
+        if(findByEmail(userDTO.email()).isPresent()){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "user already exists");
         }
 
         User user = new User(
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getEmail(),
-                passwordEncoder.encoder().encode(userDTO.getPassword())
+                userDTO.firstName(),
+                userDTO.lastName(),
+                userDTO.email(),
+                passwordEncoder.encoder().encode(userDTO.password())
         );
         User savedUser = userRepository.save(user);
 
@@ -48,13 +48,12 @@ public class UserService {
                     HttpStatus.BAD_REQUEST,
                     "user already exists");
         }
-         User newUser = userRepository.save(new User(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                passwordEncoder.encoder().encode(user.getPassword())
-        ));
-        newUser.getRoles().addAll(user.getRoles());
+
+        user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
+
+        User newUser = userRepository.save(user);
+//        newUser.getRoles().addAll(user.getRoles());
+
         return newUser;
     }
 
@@ -67,7 +66,8 @@ public class UserService {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getLinkedInLink()
         );
     }
 }

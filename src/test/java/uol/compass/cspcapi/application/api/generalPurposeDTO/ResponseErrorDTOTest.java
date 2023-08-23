@@ -30,8 +30,6 @@ public class ResponseErrorDTOTest {
     public void testGetTimestamp() throws Exception {
         Date mockDate = mock(Date.class);
 
-        // when(mockDate.getTime()).thenReturn(123456789L);
-
         Field timestampField = ResponseErrorDTO.class.getDeclaredField("timestamp");
         timestampField.setAccessible(true);
         timestampField.set(responseErrorDTO, mockDate);

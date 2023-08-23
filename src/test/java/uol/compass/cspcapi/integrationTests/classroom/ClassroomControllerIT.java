@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import uol.compass.cspcapi.application.api.auth.dto.LoginDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.CreateClassroomDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomDTO;
+import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomElementsDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.coordinator.Coordinator;
 import uol.compass.cspcapi.domain.instructor.Instructor;
@@ -66,7 +67,7 @@ public class ClassroomControllerIT {
         coordinator.setId(coordinatorId);
 
         String clasrroomTitle = "Spring Boot Maio";
-        CreateClassroomDTO classroomDTO = new CreateClassroomDTO(clasrroomTitle, coordinatorId);
+        CreateClassroomDTO classroomDTO = new CreateClassroomDTO(clasrroomTitle, coordinatorId, null);
 
         String authToken = login();
 
@@ -98,7 +99,7 @@ public class ClassroomControllerIT {
 
         String clasrroomTitle = "Spring Boot Maio";
         Long classroomId = 1L;
-        CreateClassroomDTO classroomDTO = new CreateClassroomDTO(clasrroomTitle, coordinatorId);
+        CreateClassroomDTO classroomDTO = new CreateClassroomDTO(clasrroomTitle, coordinatorId, null);
 
         String authToken = login();
 
@@ -173,7 +174,7 @@ public class ClassroomControllerIT {
         coordinator.setId(coordinatorId);
 
         String classroomTitle = "Spring Boot Maio 123";
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(classroomTitle, coordinatorId);
+        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(classroomTitle, coordinatorId, null);
         Long classroomId = 1L;
 
         String authToken = login();
@@ -226,7 +227,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -266,7 +267,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -298,7 +299,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -338,7 +339,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -370,7 +371,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -410,7 +411,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -442,7 +443,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 
@@ -482,7 +483,7 @@ public class ClassroomControllerIT {
 
         Long classroomId = 1L;
         List<Long> generalUsersIds = Arrays.asList(1L, 2L, 3L);
-        UpdateClassroomDTO classroomDTO = new UpdateClassroomDTO(generalUsersIds);
+        UpdateClassroomElementsDTO classroomDTO = new UpdateClassroomElementsDTO(generalUsersIds);
 
         String authToken = login();
 

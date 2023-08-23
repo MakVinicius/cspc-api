@@ -10,6 +10,7 @@ import uol.compass.cspcapi.application.api.grade.dto.UpdateGradeDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
@@ -23,12 +24,14 @@ import uol.compass.cspcapi.domain.user.UserRepository;
 import uol.compass.cspcapi.domain.user.UserService;
 import uol.compass.cspcapi.infrastructure.config.passwordEncrypt.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static uol.compass.cspcapi.commons.CoordinatorsConstants.*;
 
 class StudentServiceTest {
     private static final User USER_1 = new User(
@@ -71,7 +74,8 @@ class StudentServiceTest {
                 USER_1.getFirstName(),
                 USER_1.getLastName(),
                 USER_1.getEmail(),
-                USER_1.getPassword()
+                USER_1.getPassword(),
+                "linkedInLink"
         );
 
         return new CreateStudentDTO(createUserDTO);
@@ -113,7 +117,7 @@ class StudentServiceTest {
 
         ResponseStudentDTO student = studentService.save(createStudent());
 
-        assertEquals("teste@mail.com", student.getUser().getEmail());
+        assertEquals("teste@mail.com", student.user().email());
     }
 
     @Test
@@ -123,7 +127,7 @@ class StudentServiceTest {
 
         ResponseStudentDTO student = studentService.save(createStudent());
 
-        assertEquals("teste@mail.com", student.getUser().getEmail());
+        assertEquals("teste@mail.com", student.user().email());
     }
 
 
@@ -146,7 +150,7 @@ class StudentServiceTest {
 
         ResponseStudentDTO student = studentService.getById(1L);
 
-        assertEquals("teste@mail.com", student.getUser().getEmail());
+        assertEquals("teste@mail.com", student.user().email());
     }
 
     @Test
@@ -213,11 +217,12 @@ class StudentServiceTest {
                         USER_1.getFirstName(),
                         USER_1.getLastName(),
                         USER_1.getEmail(),
-                        USER_1.getPassword()
+                        USER_1.getPassword(),
+                        "linkedInLink"
                 )
         ));
 
-        assertEquals(student.getUser().getEmail(), updatedStudent.getUser().getEmail());
+        assertEquals(student.getUser().getEmail(), updatedStudent.user().email());
     }
 
     @Test
@@ -237,7 +242,8 @@ class StudentServiceTest {
                         USER_1.getFirstName(),
                         USER_1.getLastName(),
                         USER_1.getEmail(),
-                        USER_1.getPassword()
+                        USER_1.getPassword(),
+                        "linkedInLink"
                 )
         )));
 
@@ -348,9 +354,9 @@ class StudentServiceTest {
         when(studentRepository.saveAll(anyList())).thenReturn(list);
         List<ResponseStudentDTO> students = studentService.attributeStudentsToSquad(squad, list);
 
-        assertNotNull(students.get(0).getSquadId());
-        assertEquals(1L, students.get(0).getSquadId());
-        assertEquals(1L, students.get(1).getSquadId());
+        assertNotNull(students.get(0).squadId());
+        assertEquals(1L, students.get(0).squadId());
+        assertEquals(1L, students.get(1).squadId());
     }
 
     @Test
@@ -377,7 +383,7 @@ class StudentServiceTest {
                 u2
         );
 
-        Classroom classroom = new Classroom("QA - spring junit");
+        Classroom classroom = new Classroom("QA - spring junit", COORDINATOR_1);
         classroom.setId(1L);
 
         List<Student> list = List.of(s1, s2);
@@ -387,8 +393,8 @@ class StudentServiceTest {
 
         List<ResponseStudentDTO> students = studentService.attributeStudentsToClassroom(classroom, list);
 
-        assertEquals(classroom.getId(), students.get(0).getClassroomId());
-        assertEquals(classroom.getId(), students.get(1).getClassroomId());
+        assertEquals(classroom.getId(), students.get(0).classroomId());
+        assertEquals(classroom.getId(), students.get(1).classroomId());
     }
 
     @Test
@@ -396,21 +402,21 @@ class StudentServiceTest {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(STUDENT_1));
         when(studentRepository.save(any(Student.class))).thenReturn(STUDENT_1);
 
-        UpdateStudentDTO newStudent = new UpdateStudentDTO(
+        UpdateStudentsGradeDTO newStudent = new UpdateStudentsGradeDTO(
                 new UpdateGradeDTO(
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00)
                 )
         );
 
         ResponseStudentDTO student = studentService.updateGradesFromStudent(1L, newStudent);
 
-        assertNotNull(student.getGrades());
-        assertEquals(GRADE, student.getGrades());
+        assertNotNull(student.grades());
+        assertEquals(GRADE, student.grades());
     }
 
     @Test
@@ -418,35 +424,35 @@ class StudentServiceTest {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(STUDENT_1));
         when(studentRepository.save(any(Student.class))).thenReturn(STUDENT_1);
 
-        UpdateStudentDTO newStudent = new UpdateStudentDTO(
+        UpdateStudentsGradeDTO newStudent = new UpdateStudentsGradeDTO(
                 new UpdateGradeDTO(
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00)
                 )
         );
 
         ResponseStudentDTO student = studentService.updateGradesFromStudent(1L, newStudent);
 
-        assertNotNull(student.getGrades());
-        assertEquals(GRADE, student.getGrades());
+        assertNotNull(student.grades());
+        assertEquals(GRADE, student.grades());
     }
 
     @Test
     void updateGradesFromStudentFailNotFound() {
         when(studentRepository.findById(0L)).thenThrow(ResponseStatusException.class);
 
-        UpdateStudentDTO newStudent = new UpdateStudentDTO(
+        UpdateStudentsGradeDTO newStudent = new UpdateStudentsGradeDTO(
                 new UpdateGradeDTO(
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D,
-                        0D
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00),
+                        new BigDecimal(0.00)
                 )
         );
 
@@ -456,14 +462,6 @@ class StudentServiceTest {
 
         assertEquals("student not found", response.getReason());
         assertEquals(404, response.getStatusCode().value());
-    }
-
-    @Test
-    void mapToResponseStudent() {
-    }
-
-    @Test
-    void mapToResponseStudents() {
     }
 
     private static RoleRepository createRoleRepository() {

@@ -1,5 +1,6 @@
 package uol.compass.cspcapi.application.api.scrumMaster;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class ScrumMasterController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseScrumMasterDTO> save( @RequestBody CreateScrumMasterDTO scrumMaster)
+    public ResponseEntity<ResponseScrumMasterDTO> save(@Valid @RequestBody CreateScrumMasterDTO scrumMaster)
     {
         return new ResponseEntity<>(
                 scrumMasterService.save(scrumMaster),
@@ -49,7 +50,7 @@ public class ScrumMasterController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseScrumMasterDTO> updateScrumMaster(@PathVariable Long id, @RequestBody UpdateScrumMasterDTO scrumMasterDTO)
+    public ResponseEntity<ResponseScrumMasterDTO> updateScrumMaster(@PathVariable Long id, @Valid @RequestBody UpdateScrumMasterDTO scrumMasterDTO)
     {
         return new ResponseEntity<>(
                 scrumMasterService.update(id, scrumMasterDTO),
@@ -58,7 +59,7 @@ public class ScrumMasterController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         scrumMasterService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

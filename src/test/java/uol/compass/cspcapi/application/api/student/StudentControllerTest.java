@@ -18,6 +18,7 @@ import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
 import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.ResponseUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
+import uol.compass.cspcapi.domain.grade.Grade;
 import uol.compass.cspcapi.domain.student.Student;
 import uol.compass.cspcapi.domain.student.StudentService;
 import uol.compass.cspcapi.domain.user.User;
@@ -47,29 +48,25 @@ public class StudentControllerTest {
 
     @Test
     public void testsave_Success() {
-        User user = new User("First", "Second", "first.second@mail.com", "first.second");
-        CreateUserDTO userDTO = new CreateUserDTO("First", "Second", "first.second@mail.com", "first.second");
-        CreateStudentDTO studentDTO = new CreateStudentDTO();
-        studentDTO.setUser(userDTO);
+        CreateUserDTO userDTO = new CreateUserDTO("First", "Second", "first.second@mail.com", "first.second", "linkedInLink");
+        CreateStudentDTO studentDTO = new CreateStudentDTO(userDTO);
 
-        ResponseUserDTO expectedUser = new ResponseUserDTO(1L, "First", "Second", "first.second@mail.com");
-        ResponseStudentDTO expectedStudent = new ResponseStudentDTO(1L, expectedUser);
+        ResponseUserDTO expectedUser = new ResponseUserDTO(1L, "First", "Second", "first.second@mail.com", "linkedInLink");
+        ResponseStudentDTO expectedStudent = new ResponseStudentDTO(1L, expectedUser, new Grade(), null, null);
 
         when(studentService.save(any(CreateStudentDTO.class))).thenReturn(expectedStudent);
 
         ResponseEntity<ResponseStudentDTO> responseEntity = studentController.save(studentDTO);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(expectedStudent.getId(), responseEntity.getBody().getId());
-        assertEquals(expectedStudent.getUser(), responseEntity.getBody().getUser());
+        assertEquals(expectedStudent.id(), responseEntity.getBody().id());
+        assertEquals(expectedStudent.user(), responseEntity.getBody().user());
     }
 
     @Test
     public void testsave_Error() {
-        User user = new User("First", "Second", "first.second@mail.com", "first.second");
-        CreateUserDTO userDTO = new CreateUserDTO("First", "Second", "first.second@mail.com", "first.second");
-        CreateStudentDTO studentDTO = new CreateStudentDTO();
-        studentDTO.setUser(userDTO);
+        CreateUserDTO userDTO = new CreateUserDTO("First", "Second", "first.second@mail.com", "first.second", "linkedInLink");
+        CreateStudentDTO studentDTO = new CreateStudentDTO(userDTO);
 
         when(studentService.save(any(CreateStudentDTO.class))).thenThrow(new RuntimeException("Error ocurred while saving instructor"));
 
@@ -79,16 +76,16 @@ public class StudentControllerTest {
     @Test
     public void testGetStudentById_Success() {
         Long studentId = 1L;
-        ResponseUserDTO expectedUser = new ResponseUserDTO(1L, "First", "Second", "first.second@mail.com");
-        ResponseStudentDTO expectedStudent = new ResponseStudentDTO(studentId, expectedUser);
+        ResponseUserDTO expectedUser = new ResponseUserDTO(1L, "First", "Second", "first.second@mail.com", "linkedInLink");
+        ResponseStudentDTO expectedStudent = new ResponseStudentDTO(studentId, expectedUser, new Grade(), null, null);
 
         when(studentService.getById(anyLong())).thenReturn(expectedStudent);
 
         ResponseEntity<ResponseStudentDTO> responseEntity = studentController.getById(studentId);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedStudent.getId(), responseEntity.getBody().getId());
-        assertEquals(expectedStudent.getUser(), responseEntity.getBody().getUser());
+        assertEquals(expectedStudent.id(), responseEntity.getBody().id());
+        assertEquals(expectedStudent.user(), responseEntity.getBody().user());
     }
 
     @Test
@@ -97,11 +94,9 @@ public class StudentControllerTest {
 
         when(studentService.getById(anyLong())).thenReturn(null);
 
-        // Performing the test and verifying the exception
         try {
             studentController.getById(studentId);
         } catch (ResponseStatusException exception) {
-            // Asserting the status code of the exception
             assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         }
     }
@@ -122,15 +117,12 @@ public class StudentControllerTest {
 
     @Test
     public void testGetAllStudents_EmptyList() {
-        // Mocking the behavior of the ClassroomService.getAllClassrooms method for empty list scenario
         List<ResponseStudentDTO> expectedStudents = new ArrayList<>();
 
         when(studentService.getAll()).thenReturn(expectedStudents);
 
-        // Performing the test
         ResponseEntity<List<ResponseStudentDTO>> responseEntity = studentController.getAllStudents();
 
-        // Asserting the response status code and the returned list of classrooms (should be an empty list)
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedStudents.size(), responseEntity.getBody().size());
         assertEquals(expectedStudents, responseEntity.getBody());
@@ -138,19 +130,20 @@ public class StudentControllerTest {
 
     @Test
     public void testUpdateStudent_Success() {
-        // Mocking the behavior of the ClassroomService.updateClassroom method for success scenario
         Long studentId = 1L;
         User user = new User(
-                RESPONSE_USER_1.getFirstName(),
-                RESPONSE_USER_1.getLastName(),
-                RESPONSE_USER_1.getEmail(),
-                "password"
+                RESPONSE_USER_1.firstName(),
+                RESPONSE_USER_1.lastName(),
+                RESPONSE_USER_1.email(),
+                "password",
+                "linkedInLink"
         );
         UpdateUserDTO userDTO = new UpdateUserDTO(
-                RESPONSE_USER_1.getFirstName(),
-                RESPONSE_USER_1.getLastName(),
-                RESPONSE_USER_1.getEmail(),
-                "password"
+                RESPONSE_USER_1.firstName(),
+                RESPONSE_USER_1.lastName(),
+                RESPONSE_USER_1.email(),
+                "password",
+                "linkedInLink"
         );
         UpdateStudentDTO studentDTO = new UpdateStudentDTO(userDTO);
 
@@ -160,27 +153,24 @@ public class StudentControllerTest {
 
         when(studentService.update(anyLong(), any(UpdateStudentDTO.class))).thenReturn(RESPONSE_STUDENT_1);
 
-        // Performing the test
         ResponseEntity<ResponseStudentDTO> responseEntity = studentController.updateStudent(studentId, studentDTO);
 
-        // Asserting the response status code and the returned Classroom object
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(updatedStudent.getId(), responseEntity.getBody().getId());
-        assertEquals(updatedStudent.getUser().getFirstName(), responseEntity.getBody().getUser().getFirstName());
-        assertEquals(updatedStudent.getUser().getLastName(), responseEntity.getBody().getUser().getLastName());
-        assertEquals(updatedStudent.getUser().getLastName(), responseEntity.getBody().getUser().getLastName());
+        assertEquals(updatedStudent.getId(), responseEntity.getBody().id());
+        assertEquals(updatedStudent.getUser().getFirstName(), responseEntity.getBody().user().firstName());
+        assertEquals(updatedStudent.getUser().getLastName(), responseEntity.getBody().user().lastName());
+        assertEquals(updatedStudent.getUser().getEmail(), responseEntity.getBody().user().email());
     }
 
     @Test
     public void testUpdateStudent_NotFound() {
-        // Mocking the behavior of the ClassroomService.updateClassroom method for scenario where classroom is not found
         Long studentId = 999L;
-        User user = new User("First", "Second", "first.second@mail.com", "first.second");
         UpdateUserDTO userDTO = new UpdateUserDTO(
-                RESPONSE_USER_1.getFirstName(),
-                RESPONSE_USER_1.getLastName(),
-                RESPONSE_USER_1.getEmail(),
-                "password"
+                RESPONSE_USER_1.firstName(),
+                RESPONSE_USER_1.lastName(),
+                RESPONSE_USER_1.email(),
+                "password",
+                "linkedInLink"
         );
         UpdateStudentDTO studentDTO = new UpdateStudentDTO(userDTO);
 
@@ -189,37 +179,30 @@ public class StudentControllerTest {
         try {
             studentController.updateStudent(studentId, studentDTO);
         } catch (ResponseStatusException exception) {
-            // Asserting the status code of the exception
             assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         }
     }
 
     @Test
     public void testDelete_Success() {
-        // Mocking the behavior of the ClassroomService.deleteClassroom method for success scenario
         Long studentId = 1L;
 
         doNothing().when(studentService).delete(studentId);
 
-        // Performing the test
         ResponseEntity<Void> responseEntity = studentController.delete(studentId);
 
-        // Asserting the response status code (should be HTTP 204 No Content)
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
 
     @Test
     public void testDelete_NotFound() {
-        // Mocking the behavior of the ClassroomService.deleteClassroom method for scenario where classroom is not found
         Long studentId = 999L;
 
         doThrow(ResponseStatusException.class).when(studentService).delete(studentId);
 
-        // Performing the test and verifying the exception
         try {
             studentController.delete(studentId);
         } catch (ResponseStatusException exception) {
-            // Assertion for ResourceNotFoundException
             assertEquals(ResponseStatusException.class, exception.getClass());
         }
     }

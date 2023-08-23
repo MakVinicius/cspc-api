@@ -1,40 +1,12 @@
 package uol.compass.cspcapi.application.api.scrumMaster.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import uol.compass.cspcapi.domain.classroom.Classroom;
-import uol.compass.cspcapi.domain.user.User;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 
-public class UpdateScrumMasterDTO {
-    @NotBlank(message = "user must not be empty")
-    private User user;
-    private Classroom classroom;
-
-    public UpdateScrumMasterDTO() {}
-
-    public UpdateScrumMasterDTO(User user) {
-        this.user = user;
-    }
-
-    public UpdateScrumMasterDTO(User user, Classroom classroom) {
-        this.user = user;
-        this.classroom = classroom;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Classroom getClassroom() {
-        return classroom;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
-    }
+public record UpdateScrumMasterDTO (
+        @Valid
+        @NotNull(message = "user must not be null")
+        UpdateUserDTO user
+) {
 }

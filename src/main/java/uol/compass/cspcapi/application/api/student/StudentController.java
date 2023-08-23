@@ -1,13 +1,14 @@
 package uol.compass.cspcapi.application.api.student;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
-import uol.compass.cspcapi.domain.student.Student;
 import uol.compass.cspcapi.domain.student.StudentService;
 
 import java.util.List;
@@ -23,9 +24,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseStudentDTO> save(
-            @RequestBody CreateStudentDTO student
-    ){
+    public ResponseEntity<ResponseStudentDTO> save(@Valid @RequestBody CreateStudentDTO student){
         return new ResponseEntity<>(
                 studentService.save(student),
                 HttpStatus.CREATED
@@ -51,7 +50,7 @@ public class StudentController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseStudentDTO> updateStudent(
             @PathVariable Long id,
-            @RequestBody UpdateStudentDTO studentDTO
+            @Valid @RequestBody UpdateStudentDTO studentDTO
     ) {
         return new ResponseEntity<>(
                 studentService.update(id, studentDTO),
@@ -66,7 +65,10 @@ public class StudentController {
     }
 
     @PatchMapping("/{studentId}/update-grades")
-    public ResponseEntity<ResponseStudentDTO> updateGradesFromStudent(@PathVariable Long studentId, @RequestBody UpdateStudentDTO studentDTO) {
+    public ResponseEntity<ResponseStudentDTO> updateGradesFromStudent(
+            @PathVariable Long studentId,
+            @Valid @RequestBody UpdateStudentsGradeDTO studentDTO
+    ) {
         return new ResponseEntity<>(studentService.updateGradesFromStudent(studentId, studentDTO), HttpStatus.OK);
     }
 

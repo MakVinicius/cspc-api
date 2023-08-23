@@ -6,11 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.grade.dto.UpdateGradeDTO;
+import uol.compass.cspcapi.application.api.student.dto.UpdateStudentsGradeDTO;
 import uol.compass.cspcapi.application.api.student.dto.CreateStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.ResponseStudentDTO;
 import uol.compass.cspcapi.application.api.student.dto.UpdateStudentDTO;
-import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
-import uol.compass.cspcapi.application.api.user.dto.ResponseUserDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.classroom.Classroom;
 import uol.compass.cspcapi.domain.role.RoleService;
@@ -19,6 +18,7 @@ import uol.compass.cspcapi.domain.user.User;
 import uol.compass.cspcapi.domain.user.UserService;
 import uol.compass.cspcapi.infrastructure.config.passwordEncrypt.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +27,8 @@ import java.util.Optional;
 public class StudentService {
     private final StudentRepository studentRepository;
 
-    // Aqui eu não posso acessar diretamente o user repository
-    // Essa abordagem serve para manter as classes protegidas
     private final UserService userService;
-
     private final PasswordEncoder passwordEncrypt;
-
     private final RoleService roleService;
 
     @Autowired
@@ -43,10 +39,9 @@ public class StudentService {
         this.roleService = roleService;
     }
 
-
     @Transactional
     public ResponseStudentDTO save(CreateStudentDTO student) {
-        Optional<User> alreadyExists = userService.findByEmail(student.getUser().getEmail());
+        Optional<User> alreadyExists = userService.findByEmail(student.user().email());
 
         if(alreadyExists.isPresent()){
             throw new ResponseStatusException(
@@ -56,10 +51,11 @@ public class StudentService {
         }
 
         User user = new User(
-                student.getUser().getFirstName(),
-                student.getUser().getLastName(),
-                student.getUser().getEmail(),
-                passwordEncrypt.encoder().encode(student.getUser().getPassword())
+                student.user().firstName(),
+                student.user().lastName(),
+                student.user().email(),
+                passwordEncrypt.encoder().encode(student.user().password()),
+                student.user().linkedInLink()
         );
       
         user.getRoles().add(roleService.findRoleByName("ROLE_STUDENT"));
@@ -99,9 +95,11 @@ public class StudentService {
 
         User user = student.getUser();
 
-        user.setFirstName(studentDTO.getUser().getFirstName());
-        user.setLastName(studentDTO.getUser().getLastName());
-        user.setEmail(studentDTO.getUser().getEmail());
+        user.setFirstName(studentDTO.user().firstName());
+        user.setLastName(studentDTO.user().lastName());
+        user.setEmail(studentDTO.user().email());
+        user.setPassword(passwordEncrypt.encoder().encode(studentDTO.user().password()));
+        user.setLinkedInLink(studentDTO.user().linkedInLink());
 
         student.setUser(user);
 
@@ -157,7 +155,7 @@ public class StudentService {
     }
 
     @Transactional
-    public ResponseStudentDTO updateGradesFromStudent(Long id, UpdateStudentDTO studentDTO) {
+    public ResponseStudentDTO updateGradesFromStudent(Long id, UpdateStudentsGradeDTO studentDTO) {
         Student student = studentRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
@@ -167,19 +165,29 @@ public class StudentService {
 
         Grade studentGrades;
         if (student.getGrades() == null) {
-            studentGrades = new Grade(0.00, 0.00, 0.00, 0.00, 0.00, 0.00);
+            BigDecimal zero = new BigDecimal("0.00");
+            studentGrades = new Grade(zero, zero, zero, zero, zero, zero);
         } else {
             studentGrades = student.getGrades();
         }
-        UpdateGradeDTO newGrades = studentDTO.getGrades();
+        UpdateGradeDTO newGrades = studentDTO.grades();
 
-        studentGrades.setCommunication(newGrades.getCommunication());
-        studentGrades.setCollaboration(newGrades.getCollaboration());
-        studentGrades.setAutonomy(newGrades.getAutonomy());
-        studentGrades.setQuiz(newGrades.getQuiz());
-        studentGrades.setIndividualChallenge(newGrades.getIndividualChallenge());
-        studentGrades.setSquadChallenge(newGrades.getSquadChallenge());
-        studentGrades.setFinalGrade(newGrades.getFinalGrade());
+        studentGrades.setCommunication(newGrades.communication());
+        studentGrades.setCollaboration(newGrades.collaboration());
+        studentGrades.setAutonomy(newGrades.autonomy());
+        studentGrades.setQuiz(newGrades.quiz());
+        studentGrades.setIndividualChallenge(newGrades.individualChallenge());
+        studentGrades.setSquadChallenge(newGrades.squadChallenge());
+        studentGrades.setFinalGrade(
+                studentGrades.calculateFinalGrade(
+                        studentGrades.getCommunication(),
+                        studentGrades.getCollaboration(),
+                        studentGrades.getAutonomy(),
+                        studentGrades.getQuiz(),
+                        studentGrades.getIndividualChallenge(),
+                        studentGrades.getSquadChallenge()
+                )
+        );
 
         student.setGrades(studentGrades);
         Student savedStudent = studentRepository.save(student);

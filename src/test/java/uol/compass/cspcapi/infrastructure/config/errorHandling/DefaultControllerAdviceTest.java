@@ -23,7 +23,6 @@ class DefaultControllerAdviceTest {
     private static DefaultControllerAdvice defaultControllerAdvice;
 //    private MethodArgumentNotValidException methodArgumentNotValidException;
 
-
     @BeforeAll
     static void setUp() {
         runtimeException = new RuntimeException("exception");
@@ -71,10 +70,6 @@ class DefaultControllerAdviceTest {
         assertEquals(responseDTO.getData(), parse.getData());
         assertInstanceOf(ResponseEntity.class, response);
     }
-
-//    @Test
-//    void handleMethodArgumentNotValid() {
-//    }
 
     @Test
     void handlerResponseStatus() {

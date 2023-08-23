@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uol.compass.cspcapi.application.api.instructor.dto.CreateInstructorDTO;
 import uol.compass.cspcapi.application.api.instructor.dto.ResponseInstructorDTO;
 import uol.compass.cspcapi.application.api.instructor.dto.UpdateInstructorDTO;
+import uol.compass.cspcapi.application.api.user.dto.CreateUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.ResponseUserDTO;
 import uol.compass.cspcapi.application.api.user.dto.UpdateUserDTO;
 import uol.compass.cspcapi.domain.classroom.Classroom;
@@ -25,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static uol.compass.cspcapi.commons.CoordinatorsConstants.*;
 
 public class InstructorServiceTest {
 
@@ -67,9 +69,10 @@ public class InstructorServiceTest {
     @Test
     public void testSave_Success() {
         User user = new User("John", "Doe", "johndoe@compass.com", "password");
+        CreateUserDTO userDTO = new CreateUserDTO("John", "Doe", "johndoe@compass.com", "password", "linkedInLink");
         Instructor instructor = new Instructor(user);
         Classroom classroom = new Classroom();
-        CreateInstructorDTO instructorDTO = new CreateInstructorDTO(user);
+        CreateInstructorDTO instructorDTO = new CreateInstructorDTO(userDTO);
 
         instructor.setId(1L);
         classroom.setId(1L);
@@ -81,17 +84,16 @@ public class InstructorServiceTest {
 
         ResponseInstructorDTO result = instructorService.save(instructorDTO);
 
-        assertEquals(instructor.getId(), result.getId());
-        assertEquals(instructor.getUser().getFirstName(), result.getUser().getFirstName());
-        assertEquals(instructor.getUser().getLastName(), result.getUser().getLastName());
-        assertEquals(instructor.getUser().getEmail(), result.getUser().getEmail());
+        assertEquals(instructor.getId(), result.id());
+        assertEquals(instructor.getUser().getFirstName(), result.user().firstName());
+        assertEquals(instructor.getUser().getLastName(), result.user().lastName());
+        assertEquals(instructor.getUser().getEmail(), result.user().email());
     }
 
     @Test
     public void testSave_Failure() {
-        CreateInstructorDTO instructorDTO = new CreateInstructorDTO();
-        User userDTO = new User("John", "Doe", "johndoe@compass.com", "password");
-        instructorDTO.setUser(userDTO);
+        CreateUserDTO userDTO = new CreateUserDTO("John", "Doe", "johndoe@compass.com", "password", "linkedInLink");
+        CreateInstructorDTO instructorDTO = new CreateInstructorDTO(userDTO);
 
         User existingUser = new User("Jane", "Smith", "johndoe@compass.com", "hashed_password");
 
@@ -115,7 +117,8 @@ public class InstructorServiceTest {
         Instructor newInstructor = new Instructor(newUser);
         newInstructor.setId(instructorId);
 
-        UpdateInstructorDTO instructorDTO = new UpdateInstructorDTO(newUser);
+        UpdateUserDTO updateUserDTO = new UpdateUserDTO("User1", "User2", "user@mail.com", "user1.user2", "linkedInLink");
+        UpdateInstructorDTO instructorDTO = new UpdateInstructorDTO(updateUserDTO);
 
         when(instructorRepository.findById(instructorId)).thenReturn(Optional.of(instructor));
         when(instructorRepository.save(any(Instructor.class))).thenReturn(newInstructor);
@@ -123,15 +126,16 @@ public class InstructorServiceTest {
         ResponseInstructorDTO result = instructorService.update(instructorId, instructorDTO);
 
         verify(instructorRepository, times(1)).findById(anyLong());
-        assertEquals(instructorId, result.getId());
-        assertEquals(instructorDTO.getUser().getFirstName(), result.getUser().getFirstName());
-        assertEquals(instructorDTO.getUser().getLastName(), result.getUser().getLastName());
-        assertEquals(instructorDTO.getUser().getEmail(), result.getUser().getEmail());
+        assertEquals(instructorId, result.id());
+        assertEquals(instructorDTO.user().firstName(), result.user().firstName());
+        assertEquals(instructorDTO.user().lastName(), result.user().lastName());
+        assertEquals(instructorDTO.user().email(), result.user().email());
     }
 
     @Test
     public void testUpdate_Failure() {
-        UpdateInstructorDTO instructorDTO = new UpdateInstructorDTO( new User("John", "Doe", "johndoe@compass.com", "senha"));
+        UpdateUserDTO updateUserDTO = new UpdateUserDTO("User1", "User2", "user@mail.com", "user1.user2", "linkedInLink");
+        UpdateInstructorDTO instructorDTO = new UpdateInstructorDTO(updateUserDTO);
 
         when(instructorRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -142,18 +146,6 @@ public class InstructorServiceTest {
     //GetById
     @Test
     public void testGetById_Success() {
-//        User user = new User("John", "Doe", "johndoe@compass.com", "password");
-//        user.setId(1L);
-//        Instructor instructor = new Instructor(1L, user);
-//
-//        when(instructorRepository.findById(1L)).thenReturn(Optional.of(instructor));
-//        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
-//
-//        ResponseInstructorDTO result = instructorService.getById(1L);
-//
-//        assertEquals(instructor.getId(), result.getId());
-
-
         Long instructorId = 1L;
         User user_1 = new User("First", "Second", "first.second@mail.com", "first.second");
         user_1.setId(1L);
@@ -167,13 +159,7 @@ public class InstructorServiceTest {
         verify(instructorRepository, times(1)).findById(instructorId);
 
         assertNotNull(result);
-        assertEquals(instructorId, result.getId());
-
-        /*
-        assertEquals(instructor.getUser().getFirstName(), result.getUser().getFirstName());
-        assertEquals(instructor.getUser().getLastName(), result.getUser().getLastName());
-        assertEquals(instructor.getUser().getEmail(), result.getUser().getEmail());
-        */
+        assertEquals(instructorId, result.id());
     }
 
     @Test
@@ -267,11 +253,11 @@ public class InstructorServiceTest {
     //Attribute instructor to classroom
     @Test
     public void testAttributeInstructorsToClassroom_Success() {
-        Classroom classroom = new Classroom( "Classroom");
+        Classroom classroom = new Classroom( "Classroom", COORDINATOR_1);
 
         List<Instructor> instructors = new ArrayList<>();
-        instructors.add(new Instructor(1L, new User("John", "Doe", "john@compass.com", "password")));
-        instructors.add(new Instructor(2L, new User("Jane", "Smith", "jane@compass.com", "password")));
+        instructors.add(new Instructor(new User("John", "Doe", "john@compass.com", "password", null)));
+        instructors.add(new Instructor(new User("Jane", "Smith", "jane@compass.com", "password")));
 
         when(instructorRepository.saveAll(anyList())).thenReturn(instructors);
         when(instructorRepository.findAllByIdIn(anyList())).thenReturn(instructors);
@@ -283,19 +269,14 @@ public class InstructorServiceTest {
         }
 
         assertEquals(instructors.size(), result.size());
-//        result.forEach(
-//                it -> {
-//                    assertEquals(1L, it.getId());
-//                    assertEquals(2L, it.getId());
-//                }
-//        );
+
         verify(instructorRepository).findAllByIdIn(anyList());
         verify(instructorRepository).saveAll(anyList());
     }
 
     @Test
     public void testAttributeInstructorsToClassroom_Failure() {
-        Classroom classroom = new Classroom( "Classroom");
+        Classroom classroom = new Classroom( "Classroom", COORDINATOR_1);
         User user = new User("John", "Doe", "test@mail.com", "12344321");
         Instructor i1 = new Instructor(user);
         Instructor i2 = new Instructor(user);

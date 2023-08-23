@@ -1,5 +1,6 @@
 package uol.compass.cspcapi.application.api.classroom;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uol.compass.cspcapi.application.api.classroom.dto.CreateClassroomDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.ResponseClassroomDTO;
 import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomDTO;
+import uol.compass.cspcapi.application.api.classroom.dto.UpdateClassroomElementsDTO;
 import uol.compass.cspcapi.domain.Squad.Squad;
 import uol.compass.cspcapi.domain.classroom.ClassroomService;
 import uol.compass.cspcapi.domain.classroom.Classroom;
@@ -25,8 +27,14 @@ public class ClassroomController {
 
     //Create Classroom
     @PostMapping
-    public ResponseEntity<ResponseClassroomDTO> createClassroom(@RequestBody CreateClassroomDTO classroomDTO) {
-        Long coordinatorId = classroomDTO.getCoordinatorId();
+    public ResponseEntity<ResponseClassroomDTO> createClassroom(@Valid @RequestBody CreateClassroomDTO classroomDTO) {
+        Long coordinatorId;
+        if (classroomDTO.coordinatorId() != null) {
+            coordinatorId = classroomDTO.coordinatorId();
+        } else {
+            coordinatorId = null;
+        }
+
         return new ResponseEntity<>(
                 classroomService.saveClassroom(classroomDTO, coordinatorId),
                 HttpStatus.CREATED
@@ -45,7 +53,10 @@ public class ClassroomController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseClassroomDTO> updateClassroom(@PathVariable Long id, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> updateClassroom(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateClassroomDTO classroomDTO
+    ) {
         return new ResponseEntity<>(classroomService.updateClassroom(id, classroomDTO), HttpStatus.OK);
     }
 
@@ -57,7 +68,10 @@ public class ClassroomController {
 
     //Insert user (Students, Scrum Master, Instructor), in classroom
     @PatchMapping("/{classroomId}/add-students")
-    public ResponseEntity<ResponseClassroomDTO> addStudentsToClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> addStudentsToClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.addStudentsToClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -65,7 +79,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/add-scrummasters")
-    public ResponseEntity<ResponseClassroomDTO> addScumMastersToClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> addScumMastersToClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.addScrumMastersToClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -73,7 +90,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/add-instructors")
-    public ResponseEntity<ResponseClassroomDTO> addInstructorsToClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> addInstructorsToClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.addInstructorsToClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -81,7 +101,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/add-squads")
-    public ResponseEntity<ResponseClassroomDTO> addSquadsToClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> addSquadsToClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.addSquadsToClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -90,7 +113,10 @@ public class ClassroomController {
 
     //Insert user (Students, Scrum Master, Instructor), in classroom
     @PatchMapping("/{classroomId}/remove-students")
-    public ResponseEntity<ResponseClassroomDTO> removeStudentsFromClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> removeStudentsFromClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.removeStudentsFromClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -98,7 +124,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/remove-scrummasters")
-    public ResponseEntity<ResponseClassroomDTO> removeScrumMastersFromClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> removeScrumMastersFromClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.removeScrumMastersFromClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -106,7 +135,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/remove-instructors")
-    public ResponseEntity<ResponseClassroomDTO> removeInstructorsFromClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> removeInstructorsFromClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.removeInstructorsFromClassroom(classroomId, classroomDTO),
                 HttpStatus.OK
@@ -114,7 +146,10 @@ public class ClassroomController {
     }
 
     @PatchMapping("/{classroomId}/remove-squads")
-    public ResponseEntity<ResponseClassroomDTO> removeSquadsFromClassroom(@PathVariable Long classroomId, @RequestBody UpdateClassroomDTO classroomDTO) {
+    public ResponseEntity<ResponseClassroomDTO> removeSquadsFromClassroom(
+            @PathVariable Long classroomId,
+            @Valid @RequestBody UpdateClassroomElementsDTO classroomDTO
+    ) {
         return new ResponseEntity<>(
                 classroomService.removeSquadsFromClassroom(classroomId, classroomDTO),
                 HttpStatus.OK

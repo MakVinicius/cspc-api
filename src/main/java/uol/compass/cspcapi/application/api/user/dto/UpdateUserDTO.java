@@ -1,45 +1,26 @@
 package uol.compass.cspcapi.application.api.user.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public class UpdateUserDTO {
-    @NotBlank(message = "first name must not be empty")
-    @Min(value = 3, message = "first name must be greater than 3 letters")
-    private String firstName;
-    @NotBlank(message = "last name must not be empty")
-    @Min(value = 3, message = "last name must be greater than 3 letters")
-    private String lastName;
-    @NotBlank(message = "email name must not be empty")
-    @Email(message = "this field must be an email pattern")
-    private String email;
+public record UpdateUserDTO (
+        @NotBlank(message = "first name must not be empty")
+        @Size(min = 3, message = "first name must be at least 3 characters long")
+        String firstName,
 
-    @NotBlank(message = "password name must not be empty")
-    @Min(value = 8, message = "password length must be greater 8 letters")
-    private String password;
-    public UpdateUserDTO() {}
+        @NotBlank(message = "last name must not be empty")
+        @Size(min = 3, message = "last name must be at least 3 characters long")
+        String lastName,
 
-    public UpdateUserDTO(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
+        @NotBlank(message = "email must not be empty")
+        @Email(message = "field must be an email pattern")
+        String email,
 
-    public String getFirstName() {
-        return firstName;
-    }
+        @NotBlank(message = "password must not be empty")
+        @Size(min = 8, message = "password length must be at least 8 characters long")
+        String password,
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
+        String linkedInLink
+) {
 }

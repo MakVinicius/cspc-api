@@ -38,7 +38,8 @@ class UserServiceTest {
             "firstName",
             "lastName",
             "test4@mail.com",
-            "12345678"
+            "12345678",
+            "linkedInLink"
     );
 
     @MockBean
@@ -94,7 +95,6 @@ class UserServiceTest {
 
     @Test
     void saveWithSettersFailRole(){
-//        when(roleRepository.findByName(anyString())).thenReturn(Optional.of(ROLE_1))
         User user = new User();
         user.setFirstName("primeiro");
         user.setLastName("segundo");
@@ -124,14 +124,14 @@ class UserServiceTest {
     @Test
     void testSaveUserDTO() {
         when(userRepository.save(any(User.class))).thenReturn(new User(
-                USER_3.getFirstName(),
-                USER_3.getLastName(),
-                USER_3.getEmail(),
-                USER_3.getPassword()
+                USER_3.firstName(),
+                USER_3.lastName(),
+                USER_3.email(),
+                USER_3.password()
         ));
         ResponseUserDTO user = userService.saveUser(USER_3);
 
-        assertEquals("test4@mail.com", user.getEmail());
+        assertEquals("test4@mail.com", user.email());
     }
 
     @Test
@@ -150,9 +150,6 @@ class UserServiceTest {
         assertNotEquals("test2@mail.com", user.getEmail());
     }
 
-//    @Test
-//    void mapToResponseUser() {
-//    }
     private UserRepository createRepository(){
         UserRepository mock = mock(UserRepository.class);
         when(mock.findByEmail("teste@mail.com")).thenReturn(Optional.of(USER_1));

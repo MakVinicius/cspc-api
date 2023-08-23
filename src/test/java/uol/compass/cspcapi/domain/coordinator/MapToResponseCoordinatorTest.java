@@ -56,7 +56,7 @@ public class MapToResponseCoordinatorTest {
         verify(userService, never()).mapToResponseUser(any());
 
         // Assertions
-        assertEquals(coordinator.getId(), responseCoordinatorDTO.getId());
-        assertNull(responseCoordinatorDTO.getUser());
+        assertEquals(coordinator.getId(), responseCoordinatorDTO.id());
+        assertNull(responseCoordinatorDTO.user());
     }
 }

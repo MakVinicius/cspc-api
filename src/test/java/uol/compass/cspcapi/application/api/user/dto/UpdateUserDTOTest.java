@@ -32,40 +32,40 @@ public class UpdateUserDTOTest {
 
     @Test
     public void testFirstNameValidation_Success() {
-        updateUserDTO = new UpdateUserDTO("John", "Doe", "john.doe@example.com", "password123");
+        updateUserDTO = new UpdateUserDTO("John", "Doe", "john.doe@example.com", "password123", "linkedInLink");
 
-        assertTrue(updateUserDTO.getFirstName().length() >= 3);
-        assertTrue(updateUserDTO.getLastName().length() >= 3);
-        assertTrue(updateUserDTO.getEmail().matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b"));
-        assertTrue(updateUserDTO.getPassword().length() >= 8);
+        assertTrue(updateUserDTO.firstName().length() >= 3);
+        assertTrue(updateUserDTO.lastName().length() >= 3);
+        assertTrue(updateUserDTO.email().matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b"));
+        assertTrue(updateUserDTO.password().length() >= 8);
     }
 
     @Test
     public void testFirstNameValidation_Failure() {
-        updateUserDTO = new UpdateUserDTO("Jo", "Doe", "john.doe@example.com", "password123");
+        updateUserDTO = new UpdateUserDTO("Jo", "Doe", "john.doe@example.com", "password123", "linkedInLink");
 
-        assertFalse(updateUserDTO.getFirstName().length() > 3);
+        assertFalse(updateUserDTO.firstName().length() > 3);
     }
 
     @Test
     public void testLastNameValidation_Failure() {
-        updateUserDTO = new UpdateUserDTO("John", "Do", "john.doe@example.com", "password123");
+        updateUserDTO = new UpdateUserDTO("John", "Do", "john.doe@example.com", "password123", "linkedInLink");
 
-        assertFalse(updateUserDTO.getLastName().length() > 3);
+        assertFalse(updateUserDTO.lastName().length() > 3);
     }
 
     @Test
     public void testEmailValidation_Failure() {
-        updateUserDTO = new UpdateUserDTO("John", "Doe", "invalid_email", "password123");
+        updateUserDTO = new UpdateUserDTO("John", "Doe", "invalid_email", "password123", "linkedInLink");
 
-        assertFalse(updateUserDTO.getEmail().matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b"));
+        assertFalse(updateUserDTO.email().matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b"));
     }
 
     @Test
     public void testPasswordValidation_Failure() {
-        updateUserDTO = new UpdateUserDTO("John", "Doe", "john.doe@example.com", "pass");
+        updateUserDTO = new UpdateUserDTO("John", "Doe", "john.doe@example.com", "pass", "linkedInLink");
 
-        assertFalse(updateUserDTO.getPassword().length() >= 8);
+        assertFalse(updateUserDTO.password().length() >= 8);
     }
 
     // Mock the validation behavior for each constraint validator

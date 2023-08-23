@@ -1,57 +1,50 @@
 package uol.compass.cspcapi.application.api.grade.dto;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 
-public class UpdateGradeDTO {
-    private Double communication;
-    private Double collaboration;
-    private Double autonomy;
-    private Double quiz;
-    private Double individualChallenge;
-    private Double squadChallenge;
-    private Double finalGrade;
+public record UpdateGradeDTO (
+        @NotNull(message = "communication must not be null")
+        @DecimalMax(value = "10.00", message = "communication can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "communication can be 0.00 at min")
+        BigDecimal communication,
 
-    public UpdateGradeDTO(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
-        this.communication = communication;
-        this.collaboration = collaboration;
-        this.autonomy = autonomy;
-        this.quiz = quiz;
-        this.individualChallenge = individualChallenge;
-        this.squadChallenge = squadChallenge;
+        @NotNull(message = "collaboration must not be null")
+        @DecimalMax(value = "10.00", message = "collaboration can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "collaboration can be 0.00 at min")
+        BigDecimal collaboration,
 
-        this.finalGrade = calculateFinalGrade(communication, collaboration, autonomy, quiz, individualChallenge, squadChallenge);
-    }
+        @NotNull(message = "autonomy must not be null")
+        @DecimalMax(value = "10.00", message = "autonomy can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "autonomy can be 0.00 at min")
+        BigDecimal autonomy,
 
-    public Double calculateFinalGrade(Double communication, Double collaboration, Double autonomy, Double quiz, Double individualChallenge, Double squadChallenge) {
-        Double result = ((communication * 1) + (collaboration * 1) + (autonomy * 1) + (quiz * 1) + (individualChallenge * 1) + (squadChallenge * 1)) / 6;
-        return result;
-    }
+        @NotNull(message = "quiz must not be null")
+        @DecimalMax(value = "10.00", message = "quiz can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "quiz can be 0.00 at min")
+        BigDecimal quiz,
 
-    public Double getCommunication() {
-        return communication;
-    }
+        @NotNull(message = "individualChallenge must not be null")
+        @DecimalMax(value = "10.00", message = "individualChallenge can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "individualChallenge can be 0.00 at min")
+        BigDecimal individualChallenge,
 
-    public Double getCollaboration() {
-        return collaboration;
-    }
+        @NotNull(message = "squadChallenge must not be null")
+        @DecimalMax(value = "10.00", message = "squadChallenge can be 10.00 at max")
+        @DecimalMin(value = "0.00", message = "squadChallenge can be 0.00 at min")
+        BigDecimal squadChallenge
+) {
+        public BigDecimal calculateFinalGrade() {
+                BigDecimal sum = communication
+                        .add(collaboration)
+                        .add(autonomy)
+                        .add(quiz)
+                        .add(individualChallenge)
+                        .add(squadChallenge);
 
-    public Double getAutonomy() {
-        return autonomy;
-    }
-
-    public Double getQuiz() {
-        return quiz;
-    }
-
-    public Double getIndividualChallenge() {
-        return individualChallenge;
-    }
-
-    public Double getSquadChallenge() {
-        return squadChallenge;
-    }
-
-    public Double getFinalGrade() {
-        return finalGrade;
-    }
+                return sum.divide(BigDecimal.valueOf(6), 2, BigDecimal.ROUND_HALF_UP);
+        }
 }
