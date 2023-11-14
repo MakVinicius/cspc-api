@@ -1,75 +1,32 @@
+# Classroom Manager REST API
 
-# Compass Classrooms - API
-### Extra Point Activity
-1. Implement the Record Class within the project.
-2. Add Flyway and utilize migrations for Database manipulation and make some changes.
+The challenge consisted in the creation of a classroom manager backend using the Spring framework and Java. It is a REST API that has multiple endpoints allowing the CRUD operations for different users and persisting data with the MySQL database.
 
-### Mak Vinicius's Solution
-Most of the project's DTOs have been modified to implement the Java Record class. The implementations can be viewed within the directory ".../application/api". Inside each of the directories, there are folders called DTOs. <br></br>
-Several changes have been made to the project's database for Flyway.
-
-- For the "users" table, a "linkedin_link" column of type String was added to represent a person's LinkedIn profile link.<br></br>
-
-- For the "classrooms" table, a "progress" column of type BigDecimal was added to represent the percentage of completion for the respective classroom's scholarship program.<br></br>
-
-- Inside the "grades" table, the columns types were changed from Double to BigDecimal. With this change, it's possible to set limits for the values using annotations such as @DecimalMin and @DecimalMax, ensuring that users always provide grades between 0.00 and 10.00.<br></br>
-
-<p>Additionally, the Lombok dependency was added to reduce the amount of code within the project. Annotations like @Getter, @Setter, and @NoArgsConstructor were used.<br>
-Some data validations were added within the DTOs, such as @NotNull, @DecimalMin, @DecimalMax etc.<br>
-In the resources directory, there is a file named " Endpoints_Scholarship.postman_collection.json " that contains the Postman endpoints for the evaluator to test the application.</p>
-<p>Before starting the application be sure to create the database with the name "scholarshipdb" and change the credentials inside application.properties</p>
-
-### Segundo desafio
-
-#### PT BR
-O sistema consiste na criacão de um gerenciador de turmas, abstraindo o funcionamento e organizacão do programa de bolsas da Compass.uol™. O sistema permite a criacão e gerenciamento de turmas, instrutores, scrum masters e estudantes. Há a possibiliade de agrupar os estudantes em squads e atribuir notas para os mesmo.
-
-#### EN US
-The system consists of the creation of a classroom manager, abstracting the operation and organization of the Compass.uol™ scholarship program. The system allows the creation and management of classes, instructors, scrum masters and students. There is the possibility to group students into squads and assign grades to them.
-
-
+### Functionalities
+The application has authentication functionalities for different types of users (students, scrum masters, instructors and coordinators).<br>
+It also allows the CRUD operations for the users, squads and classrooms. All the endpoints are documented with the swagger dependency.<br>
+You can assign grades to students, can assign students to squads and can assign any type of user to a classroom.
 
 ## Documentation
 
 #### Swagger
 
 ```http
-  GET /swagger-ui/index.html
+  GET http://localhost:8080/swagger-ui/index.html
 ```
 
-#### Free resources
+### Prerequisites
 
-```http
-  POST /auth/register
+What softwares you need to install to run the application
+
+```
+Git
+MySQL 8.0
+Java Development Kit 17 LTS
+IntelliJ IDE 2023 or equivalent
 ```
 
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `firstName`      | `string` | **Mandatory**. user`s first name |
-| `lastName`      | `string` | **Mandatory**. user`s last name |
-| `email`      | `string` | **Mandatory**. user`s email/username |
-| `password`      | `string` | **Mandatory**. user`s password |
-
-will create a user for first access
-
----
-
-```http
-  POST /auth/signin
-```
-
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `username`      | `string` | **Mandatory**. user`s email/username |
-| `password`      | `string` | **Mandatory**. user`s password |
-
-will return a jwt token, to authenticate any other protected resources
-
----
-
-
-
-## Rodando localmente
+## Running Locally
 
 Clone the project
 
@@ -77,19 +34,39 @@ Clone the project
   git clone https://github.com/MakVinicius/cspc-api.git
 ```
 
-Move to project directory
+## First Access
 
-```bash
-  cd cspc-api
+First, create an admin user in the database through the endpoint below. This is necessary in order to interact with the backend.
+
+```http
+  POST http://localhost:8080/auth/register
 ```
 
-**we recomend to open an IDE to run maven**
+| Parameter   | Type       | Descryption                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `firstName`      | `string` | **Mandatory**. user`s first name |
+| `lastName`      | `string` | **Mandatory**. user`s last name |
+| `email`      | `string` | **Mandatory**. user`s email/username |
+| `password`      | `string` | **Mandatory**. user`s password |
 
-Launch the application inside an IDE (Intellij, Eclipse etc)
+---
 
+The next step is to login in the app with the endpoint below. Input the email and password from the admin user created above. The app will return a temporary access token (JWT) that you can use to authenticate in the backend.
 
+```http
+  POST http://localhost:8080/auth/signin
+```
 
-## Autores
+| Parameter   | Type       | Descryption                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `username`      | `string` | **Mandatory**. user`s email/username |
+| `password`      | `string` | **Mandatory**. user`s password |
+
+---
+
+After this you can access all the endpoints of the application to manage the classrooms. The endpoints are documented with swagger.
+
+## Authors
 
 - [@DaviVerissimo](https://www.github.com/DaviVerissimo)
 - [@Gablier-R](https://www.github.com/Gablier-R)
