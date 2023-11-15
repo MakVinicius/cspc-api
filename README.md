@@ -26,6 +26,11 @@ Java Development Kit 17 LTS
 IntelliJ IDE 2023 or equivalent
 ```
 
+## Unit Tests and Integration Tests
+The application has unit tests and integration tests, using JUnit 5, Mockito and MockMVC. The coverage of the tests is over 90%.
+
+![coverage.png](src%2Fmain%2Fresources%2Fstatic%2Fcoverage.png)
+
 ## Running Locally
 
 Clone the project
@@ -51,7 +56,7 @@ First, create an admin user in the database through the endpoint below. This is 
 
 ---
 
-The next step is to login in the app with the endpoint below. Input the email and password from the admin user created above. The app will return a temporary access token (JWT) that you can use to authenticate in the backend.
+The next step is to log in the app with the endpoint below. Input the email and password from the admin user created above. The app will return a temporary access token (JWT) that you can use to authenticate in the backend.
 
 ```http
   POST http://localhost:8080/auth/signin
